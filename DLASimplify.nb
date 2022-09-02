@@ -1,0 +1,3470 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    121055,       3462]
+NotebookOptionsPosition[    112090,       3296]
+NotebookOutlinePosition[    112482,       3312]
+CellTagsIndexPosition[    112439,       3309]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[StyleBox["Using the functions below, we can extract the IR \
+divergent terms from any expression",
+ FontSize->24,
+ FontWeight->"Bold"]], "Chapter",
+ Background->GrayLevel[
+  0.85],ExpressionUUID->"4fa21fd1-472e-495b-a984-4c2dc2fe2b59"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Count", " ", "the", " ", "number", " ", "of", " ", "powers", " ", "of", 
+    " ", 
+    SubscriptBox["x", "21"], " ", "in", " ", "an", " ", "expression"}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"PowerCount", "[", "exp_", "]"}], " ", ":=", " ", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"power", "=", " ", "0"}], "}"}], ",", "\[IndentingNewLine]", 
+      "\t", 
+      RowBox[{
+       RowBox[{"x21Symbols", " ", "=", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"x21", ".", "x10"}], ",", " ", 
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"x21", ".", "x10"}], ")"}], "2"], ",", "x21", ",", " ", 
+          SuperscriptBox["x21", "2"], ",", " ", 
+          SuperscriptBox["x21", "4"], ",", " ", 
+          SuperscriptBox["x21", "6"], ",", " ", 
+          SuperscriptBox["x21", "8"], ",", " ", 
+          SuperscriptBox["x21", "10"], ",", " ", "x21l", ",", " ", 
+          RowBox[{"x10", "\[Cross]", "x21"}], ",", " ", 
+          SuperscriptBox[
+           RowBox[{"(", " ", 
+            RowBox[{"x10", "\[Cross]", "x21"}], ")"}], "2"], ",", " ", "x21k",
+           ",", " ", "x21i"}], "}"}]}], ";", "\[IndentingNewLine]", "\t", 
+       RowBox[{"powerValues", "=", " ", 
+        RowBox[{"{", 
+         RowBox[{
+         "1", ",", " ", "2", ",", " ", "1", ",", " ", "2", ",", " ", "4", ",",
+           " ", "6", ",", " ", "8", ",", "10", ",", " ", "1", ",", " ", "1", 
+          ",", " ", "2", ",", " ", "1", ",", " ", "1"}], "}"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "\t", 
+       RowBox[{"num", " ", "=", " ", 
+        RowBox[{"Numerator", "[", "exp", "]"}]}], ";", "\[IndentingNewLine]", 
+       "\t", 
+       RowBox[{"denom", " ", "=", " ", 
+        RowBox[{"Denominator", "[", "exp", "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "\t", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"i", "=", "1"}], ",", " ", 
+         RowBox[{"i", "<=", " ", 
+          RowBox[{"Length", "[", "x21Symbols", "]"}]}], ",", " ", 
+         "\[IndentingNewLine]", "\t", 
+         RowBox[{
+          RowBox[{"j", " ", "=", " ", 
+           RowBox[{
+            RowBox[{"Count", "[", 
+             RowBox[{"num", ",", " ", 
+              RowBox[{"x21Symbols", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}], "]"}], " ", "+", " ", 
+            RowBox[{"Count", "[", 
+             RowBox[{
+              RowBox[{"{", "num", "}"}], ",", " ", 
+              RowBox[{"x21Symbols", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}]}], ";", 
+          "\[IndentingNewLine]", "\t", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"j", ">", "0"}], ",", " ", 
+            RowBox[{"power", "+=", " ", 
+             RowBox[{"powerValues", "[", 
+              RowBox[{"[", "i", "]"}], "]"}]}]}], "]"}], ";", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\t", 
+          RowBox[{"k", " ", "=", " ", 
+           RowBox[{"Count", "[", 
+            RowBox[{
+             RowBox[{"{", "denom", "}"}], ",", " ", 
+             RowBox[{"x21Symbols", "[", 
+              RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}], ";", 
+          "\[IndentingNewLine]", "\t", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"k", ">", "0"}], ",", " ", 
+            RowBox[{"power", "-=", " ", 
+             RowBox[{"powerValues", "[", 
+              RowBox[{"[", "i", "]"}], "]"}]}]}], "]"}], ";", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\t", 
+          RowBox[{"i", "+=", "1"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+       "power"}]}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "exp_", "]"}], " ", ":=", " ", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"dlaExp", " ", "=", " ", "0"}], ",", " ", 
+        RowBox[{"termList", " ", "=", " ", 
+         RowBox[{"{", "}"}]}], ",", " ", 
+        RowBox[{"logDivTerms", "=", " ", 
+         RowBox[{"{", "}"}]}], ",", " ", 
+        RowBox[{"powDivTerms", " ", "=", " ", 
+         RowBox[{"{", "}"}]}]}], "}"}], ",", " ", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"Replace", " ", "x20"}], ",", " ", 
+        RowBox[{
+        "expand", " ", "denominator", " ", "in", " ", "powers", " ", "of", 
+         " ", "x21"}], ",", " ", 
+        RowBox[{
+        "and", " ", "keep", " ", "only", " ", "divergent", " ", "terms"}]}], 
+       " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"rules", " ", "=", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Cross", "[", 
+            RowBox[{"x21", ",", " ", "x21"}], "]"}], "->", "0"}], ",", " ", 
+          RowBox[{
+           RowBox[{"Cross", "[", 
+            RowBox[{"x10", ",", " ", "x10"}], "]"}], "->", "0"}], ",", 
+          "\[IndentingNewLine]", "\t\t", 
+          RowBox[{
+           RowBox[{"x10", ".", "x21"}], "->", " ", 
+           RowBox[{"x21", ".", "x10"}]}], ",", " ", 
+          RowBox[{
+           RowBox[{"x21", ".", "x21"}], "->", 
+           SuperscriptBox["x21", "2"]}], ",", " ", 
+          RowBox[{
+           RowBox[{"x10", ".", "x10"}], " ", "->", " ", 
+           SuperscriptBox["x10", "2"]}]}], "}"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"x20Replace", " ", "=", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"x20", "->", 
+           RowBox[{"x21", "+", " ", "x10"}]}], ",", " ", 
+          RowBox[{"x20l", "->", 
+           RowBox[{"x21l", "+", " ", "x10l"}]}], ",", " ", 
+          RowBox[{"x20k", " ", "->", " ", 
+           RowBox[{"x10k", " ", "+", " ", "x21k"}]}], ",", " ", 
+          RowBox[{"x20i", " ", "->", " ", 
+           RowBox[{"x21i", " ", "+", " ", "x10i"}]}]}], "}"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"denomReplace", " ", "=", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           SuperscriptBox["a", "2"], "->", " ", 
+           RowBox[{
+            FractionBox["1", 
+             SuperscriptBox["x21", "2"]], "-", " ", 
+            FractionBox[
+             RowBox[{"2", " ", 
+              RowBox[{"x21", ".", "x10"}]}], 
+             SuperscriptBox["x21", "4"]], "+", " ", 
+            FractionBox[
+             SuperscriptBox["x10", "2"], 
+             SuperscriptBox["x21", "4"]]}]}], ",", " ", "\[IndentingNewLine]",
+           "\t\t\t    ", 
+          RowBox[{
+           SuperscriptBox["a", "4"], "->", " ", 
+           RowBox[{
+            FractionBox["1", 
+             SuperscriptBox["x21", 
+              RowBox[{"4", " "}]]], "-", " ", 
+            FractionBox[
+             RowBox[{"4", " ", 
+              RowBox[{"x21", ".", "x10"}]}], 
+             SuperscriptBox["x21", "6"]], "+", " ", 
+            FractionBox[
+             RowBox[{"2", " ", 
+              SuperscriptBox["x10", "2"]}], 
+             SuperscriptBox["x21", "6"]], "+", " ", 
+            FractionBox[
+             RowBox[{"4", " ", 
+              SuperscriptBox[
+               RowBox[{"(", 
+                RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+             SuperscriptBox["x21", "8"]], "+", " ", 
+            FractionBox[
+             SuperscriptBox["x10", "4"], 
+             SuperscriptBox["x21", "8"]]}]}]}], "}"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{
+         "apply", " ", "the", " ", "rules", " ", "and", " ", "replacements", 
+          " ", "above"}], ",", " ", 
+         RowBox[{
+         "while", " ", "turning", " ", "the", " ", "expression", " ", "into", 
+          " ", "a", " ", "list"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"simpTerms", " ", "=", " ", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"exp", "/.", "x20Replace"}], "//", "TensorExpand"}], 
+              ")"}], " ", "/.", " ", "rules"}], " ", ")"}], "/.", " ", 
+           "denomReplace"}], ")"}], "//", "TensorExpand"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"termList", " ", "=", " ", 
+        RowBox[{"simpTerms", " ", "/.", " ", 
+         RowBox[{"Plus", "->", "List"}]}]}], " ", ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "power", " ", "count", " ", "each", " ", "term", " ", "and", " ", 
+         "only", " ", "keep", " ", "IR", " ", "divergent", " ", "ones"}], " ",
+         "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"t", " ", "=", " ", "1"}], ",", " ", 
+         RowBox[{"t", "<=", " ", 
+          RowBox[{"Length", "[", "termList", "]"}]}], ",", " ", 
+         RowBox[{"t", "+=", "1"}], ",", "\[IndentingNewLine]", "\t", 
+         RowBox[{
+          RowBox[{"pow", "=", "  ", 
+           RowBox[{"PowerCount", "[", 
+            RowBox[{"termList", "[", 
+             RowBox[{"[", "t", "]"}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", "\t", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"pow", " ", "<", " ", 
+             RowBox[{"-", "2.5"}]}], ",", " ", "Continue", ",", " ", 
+            "\[IndentingNewLine]", "\t\t", 
+            RowBox[{
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"pow", " ", ">", " ", 
+                RowBox[{"-", "1.9"}]}], ",", " ", 
+               RowBox[{"AppendTo", "[", 
+                RowBox[{"powDivTerms", ",", " ", 
+                 RowBox[{"termList", "[", 
+                  RowBox[{"[", "t", "]"}], "]"}]}], "]"}]}], "]"}], ";", " ", 
+             "\[IndentingNewLine]", "\t\t", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"pow", " ", "<", " ", 
+                RowBox[{"-", "1.9"}]}], ",", " ", 
+               RowBox[{"AppendTo", "[", 
+                RowBox[{"logDivTerms", ",", " ", 
+                 RowBox[{"termList", "[", 
+                  RowBox[{"[", "t", "]"}], "]"}]}], "]"}]}], "]"}], ";"}]}], 
+           " ", "\[IndentingNewLine]", "\t", "]"}], ";"}]}], 
+        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{
+         RowBox[{"Style", "[", " ", 
+          RowBox[{
+          "\"\<The original terms are: \>\"", ",", " ", "15", ",", " ", 
+           "Thick", ",", " ", "Black", ",", " ", "\"\<Title\>\""}], "]"}], 
+         ",", " ", 
+         RowBox[{"exp", "/.", 
+          RowBox[{"{", 
+           RowBox[{"a", " ", "->", " ", 
+            FractionBox["1", "x20"]}], "}"}]}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{
+         RowBox[{"Style", "[", " ", 
+          RowBox[{
+          "\"\<The log divergent terms are: \>\"", ",", " ", "15", ",", " ", 
+           "Black", ",", " ", "\"\<Title\>\""}], "]"}], ",", "logDivTerms"}], 
+        "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{
+         RowBox[{"Style", "[", " ", 
+          RowBox[{
+          "\"\<The power divergent terms are: \>\"", ",", " ", "15", ",", " ",
+            "Black", ",", " ", "\"\<Title\>\""}], "]"}], ",", "powDivTerms"}],
+         "]"}], ";"}]}], "\[IndentingNewLine]", "]"}]}]}]}]], "Input",
+ CellLabel->
+  "In[2600]:=",ExpressionUUID->"11a9a60b-1070-42ef-a69b-2fb80e9afbab"],
+
+Cell[BoxData[""], "Input",ExpressionUUID->"5ee7d75c-1203-4589-9df7-5296df88501c"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Example: Simplifying (130) evolution equation for G2",
+ 
+ FontSize->24,
+ FontWeight->"Bold"]], "Section",ExpressionUUID->"0704e78c-0cd8-42a7-991a-\
+9ef10b49f8cc"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"term1", " ", "=", " ", 
+   RowBox[{
+    FractionBox[
+     SuperscriptBox["x10", "2"], 
+     SuperscriptBox["x21", "2"]], 
+    SuperscriptBox["a", "2"], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"x10", ".", "x21"}], " ", "+", " ", 
+      SuperscriptBox["x10", "2"]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"SimplifyTerm", "[", "term1", "]"}]}], "Input",
+ CellLabel->
+  "In[2605]:=",ExpressionUUID->"5f37fd93-5c52-46c2-a2f8-e817d063573f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   FractionBox[
+    RowBox[{
+     SuperscriptBox["x10", "2"], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       SuperscriptBox["x10", "2"], "+", 
+       RowBox[{"x10", ".", "x21"}]}], ")"}]}], 
+    RowBox[{
+     SuperscriptBox["x20", "2"], " ", 
+     SuperscriptBox["x21", "2"]}]]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], 
+    "Title"], $CellContext`x10^2 $CellContext`x20^(-2) $CellContext`x21^(-2) \
+($CellContext`x10^2 + Dot[$CellContext`x10, $CellContext`x21])],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2605]:=",ExpressionUUID->"d75be564-dbc1-4dd7-9854-da4736519272"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2605]:=",ExpressionUUID->"15ab5175-e660-439c-8f02-94d22c513d99"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2605]:=",ExpressionUUID->"b106e333-a244-4b70-b1e6-11f8a8573be3"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ StyleBox["(Note the simplification ",
+  FontSize->18],
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    SubscriptBox["\[CapitalGamma]", "2"], "gen"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "28a9fe02-7ddf-49a5-a26b-9c04b457b419"],
+ StyleBox[" --> ",
+  FontSize->18],
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["G", "2"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "08abf01d-63c6-4aa4-97a8-16818be115ed"],
+ StyleBox[" in the IR has been made here.) As expected, there is no IR \
+divergence in the first term of (130). The G + ",
+  FontSize->18],
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SuperscriptBox["\[CapitalGamma]", "gen"], " "}], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "643cfa7e-8558-4f47-b803-38e6b5549fb2"],
+ StyleBox["term simplifies to (note the extra 2 from the ",
+  FontSize->18],
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[CapitalGamma]", "gen"], TraditionalForm]],ExpressionUUID->
+  "4ac70b57-f4ae-45ae-b12a-142da7feb840"],
+ StyleBox["--> G again):",
+  FontSize->18]
+}], "Subsection",ExpressionUUID->"795d1f31-af1d-489a-8e65-dac33d6ab1bb"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"term2", " ", "=", " ", 
+   RowBox[{"2", "*", "2", 
+    RowBox[{"(", 
+     RowBox[{
+      FractionBox[
+       RowBox[{"x10", ".", "x21"}], 
+       SuperscriptBox["x21", "2"]], " ", "-", " ", 
+      RowBox[{
+       RowBox[{"x20", ".", "x10"}], " ", 
+       SuperscriptBox["a", "2"]}], "  ", "+", " ", 
+      RowBox[{
+       FractionBox[
+        RowBox[{"2", " ", 
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{"Cross", "[", 
+            RowBox[{"x21", ",", " ", "x10"}], "]"}], ")"}], "2"]}], 
+        SuperscriptBox["x21", "2"]], 
+       SuperscriptBox["a", "2"]}]}], ")"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"SimplifyTerm", "[", "term2", "]"}]}], "Input",
+ CellLabel->
+  "In[2637]:=",ExpressionUUID->"b55bbbe7-ee95-497f-b88c-30a267a8ccb1"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"4", " ", 
+    RowBox[{"(", 
+     RowBox[{
+      FractionBox[
+       RowBox[{"2", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"x21", "\[Cross]", "x10"}], ")"}], "2"]}], 
+       RowBox[{
+        SuperscriptBox["x20", "2"], " ", 
+        SuperscriptBox["x21", "2"]}]], "+", 
+      FractionBox[
+       RowBox[{"x10", ".", "x21"}], 
+       SuperscriptBox["x21", "2"]], "-", 
+      FractionBox[
+       RowBox[{"x20", ".", "x10"}], 
+       SuperscriptBox["x20", "2"]]}], ")"}]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], "Title"], 
+   4 (2 $CellContext`x20^(-2) $CellContext`x21^(-2) 
+     Cross[$CellContext`x21, $CellContext`x10]^2 + $CellContext`x21^(-2) 
+     Dot[$CellContext`x10, $CellContext`x21] - $CellContext`x20^(-2) 
+    Dot[$CellContext`x20, $CellContext`x10])],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2637]:=",ExpressionUUID->"61666b35-459f-4734-a5e8-2543fed8058e"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", 
+        SuperscriptBox["x10", "2"]}], 
+       SuperscriptBox["x21", "2"]]}], ",", 
+     FractionBox[
+      RowBox[{"8", " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"x10", "\[Cross]", "x21"}], ")"}], "2"]}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     FractionBox[
+      RowBox[{"8", " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+      SuperscriptBox["x21", "4"]]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {(-4) $CellContext`x10^2 $CellContext`x21^(-2), 
+    8 $CellContext`x21^(-4) Cross[$CellContext`x10, $CellContext`x21]^2, 
+    8 $CellContext`x21^(-4) Dot[$CellContext`x21, $CellContext`x10]^2}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2637]:=",ExpressionUUID->"3f241273-fb21-4681-adf1-c8fcc2a15fc1"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2637]:=",ExpressionUUID->"ab5c84a2-1be3-48fb-b5b4-107c58017a80"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Doing the angular averaging in the divergent terms by hand, we find the IR \
+divergent term is ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"4", " ", 
+      SuperscriptBox[
+       SubscriptBox["x", "10"], "2"]}], 
+     SuperscriptBox[
+      SubscriptBox["x", "21"], "2"]], "*", "G"}], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "76d3efeb-3abe-48e9-be6d-87e9e2858b65"],
+ " as expected. Similarly, the ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["G", "2"], " ", "and", " ", 
+    SuperscriptBox[
+     SubscriptBox["\[CapitalGamma]", "2"], "gen"]}], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "2bb7fbab-cc07-422a-b73d-0161be90164c"],
+ " terms give"
+}], "Subsection",ExpressionUUID->"31fe394f-a376-4f54-8365-e68e49cdf26b"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"term3", "   ", "=", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"x10", ".", "x21"}], 
+      RowBox[{"(", 
+       RowBox[{
+        FractionBox["3", 
+         SuperscriptBox["x21", "2"]], "-", " ", 
+        RowBox[{
+         FractionBox[
+          RowBox[{"2", " ", 
+           RowBox[{"x20", ".", "x21"}]}], 
+          SuperscriptBox["x21", "2"]], 
+         SuperscriptBox["a", "2"]}], "-", " ", 
+        SuperscriptBox["a", "2"]}], ")"}]}], " ", "+", " ", 
+     RowBox[{"2", " ", 
+      SuperscriptBox["a", "2"], 
+      RowBox[{"(", 
+       SuperscriptBox[
+        RowBox[{"Cross", "[", 
+         RowBox[{"x21", ",", "x10"}], "]"}], "2"], ")"}], 
+      RowBox[{"(", 
+       RowBox[{
+        FractionBox["1", 
+         SuperscriptBox["x21", "2"]], "+", " ", 
+        FractionBox[
+         RowBox[{"2", " ", 
+          RowBox[{"x20", ".", "x21"}], " ", 
+          SuperscriptBox["a", "2"]}], 
+         SuperscriptBox["x21", "2"]], "-", " ", 
+        SuperscriptBox["a", "2"]}], ")"}]}]}], "//", "Expand"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SimplifyTerm", "[", "term3", "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"term4", " ", "=", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"x10", ".", "x20"}], 
+      RowBox[{"(", 
+       RowBox[{
+        FractionBox["3", 
+         SuperscriptBox["x21", "2"]], "-", " ", 
+        RowBox[{
+         FractionBox[
+          RowBox[{"2", " ", 
+           RowBox[{"x20", ".", "x21"}]}], 
+          SuperscriptBox["x21", "2"]], 
+         SuperscriptBox["a", "2"]}], "-", " ", 
+        SuperscriptBox["a", "2"]}], ")"}]}], " ", "+", " ", 
+     RowBox[{
+      FractionBox["2", 
+       SuperscriptBox["x21", "2"]], 
+      RowBox[{"(", 
+       SuperscriptBox[
+        RowBox[{"Cross", "[", 
+         RowBox[{"x21", ",", "x10"}], "]"}], "2"], ")"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", 
+         FractionBox["1", 
+          SuperscriptBox["x21", "2"]]}], "+", " ", 
+        FractionBox[
+         RowBox[{"2", " ", 
+          RowBox[{"x20", ".", "x21"}], " ", 
+          SuperscriptBox["a", "2"]}], 
+         SuperscriptBox["x21", "2"]], "+", " ", 
+        SuperscriptBox["a", "2"]}], ")"}]}]}], "//", "Expand"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"SimplifyTerm", "[", "term4", "]"}]}], "Input",
+ CellLabel->
+  "In[2643]:=",ExpressionUUID->"7eec1fb2-ee82-4982-a059-60e827e8a08f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{"2", " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"x21", "\[Cross]", "x10"}], ")"}], "2"]}], 
+      SuperscriptBox["x20", "4"]]}], "+", 
+    FractionBox[
+     RowBox[{"2", " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"x21", "\[Cross]", "x10"}], ")"}], "2"]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "-", 
+    FractionBox[
+     RowBox[{"x10", ".", "x21"}], 
+     SuperscriptBox["x20", "2"]], "+", 
+    FractionBox[
+     RowBox[{"3", " ", 
+      RowBox[{"x10", ".", "x21"}]}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"x21", "\[Cross]", "x10"}], ")"}], "2"], " ", 
+      RowBox[{"x20", ".", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "4"], " ", 
+      SuperscriptBox["x21", "2"]}]], "-", 
+    FractionBox[
+     RowBox[{"2", " ", 
+      RowBox[{"x10", ".", "x21"}], " ", 
+      RowBox[{"x20", ".", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], "Title"], (-2) $CellContext`x20^(-4) 
+    Cross[$CellContext`x21, $CellContext`x10]^2 + 
+   2 $CellContext`x20^(-2) $CellContext`x21^(-2) 
+    Cross[$CellContext`x21, $CellContext`x10]^2 - $CellContext`x20^(-2) 
+   Dot[$CellContext`x10, $CellContext`x21] + 
+   3 $CellContext`x21^(-2) Dot[$CellContext`x10, $CellContext`x21] + 
+   4 $CellContext`x20^(-4) $CellContext`x21^(-2) 
+    Cross[$CellContext`x21, $CellContext`x10]^2 
+    Dot[$CellContext`x20, $CellContext`x21] - 
+   2 $CellContext`x20^(-2) $CellContext`x21^(-2) 
+   Dot[$CellContext`x10, $CellContext`x21] 
+   Dot[$CellContext`x20, $CellContext`x21]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2643]:=",ExpressionUUID->"67b759e6-c112-4552-a0ba-8007408d164d"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"4", " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"x10", "\[Cross]", "x21"}], ")"}], "2"]}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     FractionBox[
+      RowBox[{"4", " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+      SuperscriptBox["x21", "4"]]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {
+   4 $CellContext`x21^(-4) Cross[$CellContext`x10, $CellContext`x21]^2, 
+    4 $CellContext`x21^(-4) Dot[$CellContext`x21, $CellContext`x10]^2}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2643]:=",ExpressionUUID->"37e114ac-bc19-4a69-b0f5-a4eeed04cef3"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2643]:=",ExpressionUUID->"d5571de2-0a87-4176-b97a-36d37a5f99a7"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{"2", " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"x21", "\[Cross]", "x10"}], ")"}], "2"]}], 
+      SuperscriptBox["x21", "4"]]}], "+", 
+    FractionBox[
+     RowBox[{"2", " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"x21", "\[Cross]", "x10"}], ")"}], "2"]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "-", 
+    FractionBox[
+     RowBox[{"x10", ".", "x20"}], 
+     SuperscriptBox["x20", "2"]], "+", 
+    FractionBox[
+     RowBox[{"3", " ", 
+      RowBox[{"x10", ".", "x20"}]}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"x21", "\[Cross]", "x10"}], ")"}], "2"], " ", 
+      RowBox[{"x20", ".", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "4"]}]], "-", 
+    FractionBox[
+     RowBox[{"2", " ", 
+      RowBox[{"x10", ".", "x20"}], " ", 
+      RowBox[{"x20", ".", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], "Title"], (-2) $CellContext`x21^(-4) 
+    Cross[$CellContext`x21, $CellContext`x10]^2 + 
+   2 $CellContext`x20^(-2) $CellContext`x21^(-2) 
+    Cross[$CellContext`x21, $CellContext`x10]^2 - $CellContext`x20^(-2) 
+   Dot[$CellContext`x10, $CellContext`x20] + 
+   3 $CellContext`x21^(-2) Dot[$CellContext`x10, $CellContext`x20] + 
+   4 $CellContext`x20^(-2) $CellContext`x21^(-4) 
+    Cross[$CellContext`x21, $CellContext`x10]^2 
+    Dot[$CellContext`x20, $CellContext`x21] - 
+   2 $CellContext`x20^(-2) $CellContext`x21^(-2) 
+   Dot[$CellContext`x10, $CellContext`x20] 
+   Dot[$CellContext`x20, $CellContext`x21]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2643]:=",ExpressionUUID->"fad57356-0950-4a2e-8777-a68a06c44809"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"4", " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"x10", "\[Cross]", "x21"}], ")"}], "2"]}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     FractionBox[
+      RowBox[{"4", " ", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+      SuperscriptBox["x21", "4"]]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {
+   4 $CellContext`x21^(-4) Cross[$CellContext`x10, $CellContext`x21]^2, 
+    4 $CellContext`x21^(-4) Dot[$CellContext`x21, $CellContext`x10]^2}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2643]:=",ExpressionUUID->"bf5a75af-71a0-49d6-8138-36a41bb45b87"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2643]:=",ExpressionUUID->"8ebc59c9-ca53-4ffb-9cd0-b38c0c55ced3"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[TextData[{
+ "Averaging by hand again (and summing all divergent terms), we find an IR \
+divergent term of  ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FractionBox[
+     RowBox[{"8", " ", 
+      SuperscriptBox[
+       SubscriptBox["x", "10"], "2"]}], 
+     SuperscriptBox[
+      SubscriptBox["x", "21"], "2"]], "*", 
+    SubscriptBox["G", "2"]}], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "2f7b63ae-8748-44c9-9f62-3502284da1da"],
+ " as expected."
+}], "Subsection",ExpressionUUID->"17f05aad-0272-45f0-8252-453454879f2d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ StyleBox["IR divergent terms in ",
+  FontSize->24,
+  FontWeight->"Bold"],
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["G", "3"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "7077fcaf-c1bc-4653-af32-de928230f6c5"],
+ StyleBox[" ",
+  FontWeight->"Bold"],
+ StyleBox["equation",
+  FontSize->24,
+  FontWeight->"Bold"]
+}], "Section",ExpressionUUID->"692d2170-8bab-405d-972b-e48ea092fa76"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term1", " ", "=", "  ", 
+     RowBox[{
+      RowBox[{
+       FractionBox[
+        RowBox[{
+         RowBox[{"-", " ", "2"}], " ", "x21l", " "}], 
+        SuperscriptBox["x21", "2"]], "+", 
+       RowBox[{
+        RowBox[{"(", " ", 
+         RowBox[{"x20l", " ", "+", " ", "x21l"}], ")"}], 
+        SuperscriptBox["a", "2"]}], "-", " ", 
+       RowBox[{"2", " ", 
+        RowBox[{"Cross", "[", 
+         RowBox[{"x10", ",", "x21"}], "]"}], 
+        SuperscriptBox["a", "2"], 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox[
+           RowBox[{"elk", " ", "x21k"}], 
+           SuperscriptBox["x21", "2"]], "-", " ", 
+          RowBox[{"elk", " ", "x20k", " ", 
+           SuperscriptBox["a", "2"]}]}], ")"}]}]}], " ", "//", " ", 
+      "Expand"}]}], ";"}], "\[IndentingNewLine]", " ", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term1", "]"}], " ", ";"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellLabel->
+  "In[2647]:=",ExpressionUUID->"72da921a-99eb-4fe8-a897-71d66d2a5870"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    FractionBox["x20l", 
+     SuperscriptBox["x20", "2"]], "+", 
+    FractionBox["x21l", 
+     SuperscriptBox["x20", "2"]], "-", 
+    FractionBox[
+     RowBox[{"2", " ", "x21l"}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x20k", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}]}], 
+     SuperscriptBox["x20", "4"]], "-", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x21k", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], 
+    "Title"], $CellContext`x20^(-2) $CellContext`x20l + $CellContext`x20^(-2) \
+$CellContext`x21l - 2 $CellContext`x21^(-2) $CellContext`x21l + 
+   2 $CellContext`elk $CellContext`x20^(-4) $CellContext`x20k 
+    Cross[$CellContext`x10, $CellContext`x21] - 
+   2 $CellContext`elk $CellContext`x20^(-2) $CellContext`x21^(-2) \
+$CellContext`x21k Cross[$CellContext`x10, $CellContext`x21]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2647]:=",ExpressionUUID->"133472e1-c455-4f44-ac80-d3ba70675f01"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox["x10l", 
+      SuperscriptBox["x21", "2"]], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "x21l", " ", 
+        RowBox[{"x21", ".", "x10"}]}], 
+       SuperscriptBox["x21", "4"]]}]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {$CellContext`x10l $CellContext`x21^(-2), (-4) \
+$CellContext`x21^(-4) $CellContext`x21l 
+    Dot[$CellContext`x21, $CellContext`x10]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2647]:=",ExpressionUUID->"b020981c-ac5a-4786-b56e-e42f2af2155c"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2647]:=",ExpressionUUID->"56e9c63b-c3cc-44a8-bafa-12035760e71d"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term2", " ", "=", "  ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        FractionBox[
+         RowBox[{
+          RowBox[{"-", "elk"}], " ", "x21k", " ", 
+          RowBox[{"Cross", "[", 
+           RowBox[{"x21", ",", " ", "x10"}], "]"}]}], 
+         SuperscriptBox["x21", "2"]], 
+        SuperscriptBox["a", "2"]}], "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", 
+          RowBox[{"Cross", "[", 
+           RowBox[{"x10", ",", " ", "x21"}], "]"}]}], 
+         SuperscriptBox["x21", "2"]], 
+        SuperscriptBox["a", "2"], "elk", " ", "x21k", " ", 
+        RowBox[{"(", 
+         RowBox[{"1", "-", " ", 
+          RowBox[{
+           RowBox[{"x21", ".", "x20"}], " ", 
+           SuperscriptBox["a", "2"]}]}], ")"}]}]}], "//", " ", "Expand"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term2", "]"}], " ", ";"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellLabel->
+  "In[2649]:=",ExpressionUUID->"9647d8ec-afa3-4f64-bb90-88812355add1"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{"2", " ", "elk", " ", "x21k", " ", 
+       RowBox[{"x10", "\[Cross]", "x21"}]}], 
+      RowBox[{
+       SuperscriptBox["x20", "2"], " ", 
+       SuperscriptBox["x21", "2"]}]]}], "-", 
+    FractionBox[
+     RowBox[{"elk", " ", "x21k", " ", 
+      RowBox[{"x21", "\[Cross]", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x21k", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}], " ", 
+      RowBox[{"x21", ".", "x20"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "4"], " ", 
+      SuperscriptBox["x21", "2"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], 
+    "Title"], (-2) $CellContext`elk $CellContext`x20^(-2) \
+$CellContext`x21^(-2) $CellContext`x21k 
+    Cross[$CellContext`x10, $CellContext`x21] - $CellContext`elk \
+$CellContext`x20^(-2) $CellContext`x21^(-2) $CellContext`x21k 
+   Cross[$CellContext`x21, $CellContext`x10] + 
+   2 $CellContext`elk $CellContext`x20^(-4) $CellContext`x21^(-2) \
+$CellContext`x21k Cross[$CellContext`x10, $CellContext`x21] 
+    Dot[$CellContext`x21, $CellContext`x20]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2649]:=",ExpressionUUID->"b3cfc586-4724-4190-8223-8cbb91c47148"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    FractionBox[
+     RowBox[{"elk", " ", "x21k", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}]}], 
+     SuperscriptBox["x21", "4"]], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {$CellContext`elk $CellContext`x21^(-4) $CellContext`x21k 
+    Cross[$CellContext`x10, $CellContext`x21]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2649]:=",ExpressionUUID->"5945d6ff-70c3-4d0a-a99c-c4fec19ab1fe"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2649]:=",ExpressionUUID->"3f71109a-0e22-40aa-b9f6-6d0a5325671f"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term3", " ", "=", "  ", 
+     RowBox[{
+      RowBox[{
+       FractionBox[
+        RowBox[{
+         RowBox[{"-", "2"}], " ", "x21l", " "}], 
+        SuperscriptBox["x21", "2"]], "-", " ", 
+       FractionBox[
+        RowBox[{"x21l", " ", 
+         RowBox[{"x21", ".", 
+          RowBox[{"(", 
+           RowBox[{"x20", " ", "+", " ", "x21"}], ")"}]}], 
+         SuperscriptBox["a", "2"]}], 
+        SuperscriptBox["x21", "2"]], "+", " ", 
+       FractionBox[
+        RowBox[{"2", " ", 
+         SuperscriptBox[
+          RowBox[{"Cross", "[", 
+           RowBox[{"x10", ",", "x21"}], "]"}], "2"], " ", "x21l", " ", 
+         SuperscriptBox["a", "4"]}], 
+        SuperscriptBox["x21", "2"]]}], "//", " ", "Expand"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term3", "]"}], " ", ";"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellLabel->
+  "In[2651]:=",ExpressionUUID->"c3c76742-2967-449d-9141-62f955c69b33"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{"2", " ", "x21l"}], 
+      SuperscriptBox["x21", "2"]]}], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "x21l", " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"x10", "\[Cross]", "x21"}], ")"}], "2"]}], 
+     RowBox[{
+      SuperscriptBox["x20", "4"], " ", 
+      SuperscriptBox["x21", "2"]}]], "-", 
+    FractionBox[
+     RowBox[{"x21l", " ", 
+      RowBox[{"x21", ".", 
+       RowBox[{"(", 
+        RowBox[{"x20", "+", "x21"}], ")"}]}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], "Title"], (-2) $CellContext`x21^(-2) $CellContext`x21l + 
+   2 $CellContext`x20^(-4) $CellContext`x21^(-2) $CellContext`x21l 
+    Cross[$CellContext`x10, $CellContext`x21]^2 - $CellContext`x20^(-2) \
+$CellContext`x21^(-2) $CellContext`x21l 
+   Dot[$CellContext`x21, $CellContext`x20 + $CellContext`x21]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2651]:=",ExpressionUUID->"7717d94c-5ac3-42c6-a525-e4f785ea5e3e"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    FractionBox[
+     RowBox[{"3", " ", "x21l", " ", 
+      RowBox[{"x21", ".", "x10"}]}], 
+     SuperscriptBox["x21", "4"]], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {
+   3 $CellContext`x21^(-4) $CellContext`x21l 
+    Dot[$CellContext`x21, $CellContext`x10]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2651]:=",ExpressionUUID->"a70f074d-4eed-4601-af94-b003c66c459b"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{"4", " ", "x21l"}], 
+      SuperscriptBox["x21", "2"]]}], "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {(-4) $CellContext`x21^(-2) $CellContext`x21l}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2651]:=",ExpressionUUID->"7a1f6353-fe9d-4bd8-9576-7ed748e951b9"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term4", " ", "=", "  ", 
+     RowBox[{
+      RowBox[{
+       FractionBox[
+        RowBox[{
+         RowBox[{"-", "2"}], " ", "x21l", " "}], 
+        SuperscriptBox["x21", "2"]], "+", " ", 
+       FractionBox[
+        RowBox[{"x20l", " ", "+", "x21l", " "}], 
+        SuperscriptBox["x21", "2"]], "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", 
+          RowBox[{"Cross", "[", 
+           RowBox[{"x10", ",", " ", "x21"}], "]"}]}], 
+         SuperscriptBox["x21", "2"]], 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox[
+           RowBox[{"elk", " ", "x21k", " "}], 
+           SuperscriptBox["x21", "2"]], "-", " ", 
+          RowBox[{"elk", " ", "x20k", " ", 
+           SuperscriptBox["a", "2"]}]}], ")"}]}]}], "//", " ", "Expand"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term4", "]"}], " ", ";"}]}]}]], "Input",
+ CellLabel->
+  "In[2653]:=",ExpressionUUID->"2468f33e-9a7d-410e-aa45-0443b09c9345"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    FractionBox["x20l", 
+     SuperscriptBox["x21", "2"]], "-", 
+    FractionBox["x21l", 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x20k", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "-", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x21k", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}]}], 
+     SuperscriptBox["x21", "4"]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], 
+    "Title"], $CellContext`x20l $CellContext`x21^(-2) - $CellContext`x21^(-2) \
+$CellContext`x21l + 
+   2 $CellContext`elk $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x21^(-2) Cross[$CellContext`x10, $CellContext`x21] - 
+   2 $CellContext`elk $CellContext`x21^(-4) $CellContext`x21k 
+   Cross[$CellContext`x10, $CellContext`x21]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2653]:=",ExpressionUUID->"62d16342-7c04-47cd-bd1c-7751c01a5622"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    FractionBox["x10l", 
+     SuperscriptBox["x21", "2"]], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {$CellContext`x10l $CellContext`x21^(-2)}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2653]:=",ExpressionUUID->"5cafe183-5ade-490d-976d-cd5b750e111d"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2653]:=",ExpressionUUID->"0cfa4cc4-9100-47b7-a41d-8ed175bdd831"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term5", " ", "=", "  ", 
+     RowBox[{
+      RowBox[{
+       FractionBox[
+        RowBox[{"2", " ", 
+         RowBox[{"Cross", "[", 
+          RowBox[{"x10", ",", " ", "x21"}], "]"}], " ", "elk", " ", "x20k", 
+         " "}], 
+        SuperscriptBox["x21", "4"]], "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"elk", " ", "x20k", " ", 
+          RowBox[{"Cross", "[", 
+           RowBox[{"x10", ",", " ", "x21"}], "]"}]}], 
+         SuperscriptBox["x21", "2"]], 
+        SuperscriptBox["a", "2"]}], "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", 
+          RowBox[{"Cross", "[", 
+           RowBox[{"x10", ",", " ", "x21"}], "]"}]}], 
+         SuperscriptBox["x21", "2"]], 
+        SuperscriptBox["a", "2"], "elk", " ", "x20k", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox[
+           RowBox[{"x20", ".", "x21"}], 
+           SuperscriptBox["x21", "2"]], "-", "1"}], ")"}]}]}], "//", " ", 
+      "Expand"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term5", "]"}], " ", ";"}]}]}]], "Input",
+ CellLabel->
+  "In[2655]:=",ExpressionUUID->"52391c37-a691-4383-b8d9-7e717591c815"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x20k", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}]}], 
+     SuperscriptBox["x21", "4"]], "+", 
+    FractionBox[
+     RowBox[{"elk", " ", "x20k", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "-", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x20k", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}], " ", 
+      RowBox[{"x20", ".", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "4"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], "Title"], 
+   2 $CellContext`elk $CellContext`x20k $CellContext`x21^(-4) 
+    Cross[$CellContext`x10, $CellContext`x21] + $CellContext`elk \
+$CellContext`x20^(-2) $CellContext`x20k $CellContext`x21^(-2) 
+    Cross[$CellContext`x10, $CellContext`x21] - 
+   2 $CellContext`elk $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x21^(-4) Cross[$CellContext`x10, $CellContext`x21] 
+   Dot[$CellContext`x20, $CellContext`x21]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2655]:=",ExpressionUUID->"e9574ce3-0d4d-44de-bb8c-0dad29530209"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    FractionBox[
+     RowBox[{"elk", " ", "x21k", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}]}], 
+     SuperscriptBox["x21", "4"]], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {$CellContext`elk $CellContext`x21^(-4) $CellContext`x21k 
+    Cross[$CellContext`x10, $CellContext`x21]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2655]:=",ExpressionUUID->"f7bec212-407b-433a-a2af-fd6ee94d2485"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2655]:=",ExpressionUUID->"1b89c9be-0f0e-4113-9b98-07bea8a83a37"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term6", " ", "=", "  ", 
+     RowBox[{
+      RowBox[{
+       FractionBox[
+        RowBox[{"2", " ", 
+         RowBox[{"x21", ".", "x20"}], " ", "x20l", " "}], 
+        SuperscriptBox["x21", "4"]], "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{
+          RowBox[{"x20", ".", 
+           RowBox[{"(", 
+            RowBox[{"x20", "+", " ", "x21"}], ")"}]}], " ", "x20l"}], 
+         SuperscriptBox["x21", "2"]], 
+        SuperscriptBox["a", "2"]}], " ", "+", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", 
+          SuperscriptBox[
+           RowBox[{"Cross", "[", 
+            RowBox[{"x10", ",", " ", "x21"}], "]"}], "2"]}], 
+         SuperscriptBox["x21", "4"]], 
+        SuperscriptBox["a", "2"], "x20l"}]}], "//", " ", "Expand"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term6", "]"}], " ", ";"}]}]}]], "Input",
+ CellLabel->
+  "In[2657]:=",ExpressionUUID->"8ec58cd5-da91-489f-9bc6-4a80d1160346"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"2", " ", "x20l", " ", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"x10", "\[Cross]", "x21"}], ")"}], "2"]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "4"]}]], "-", 
+    FractionBox[
+     RowBox[{"x20l", " ", 
+      RowBox[{"x20", ".", 
+       RowBox[{"(", 
+        RowBox[{"x20", "+", "x21"}], ")"}]}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "x20l", " ", 
+      RowBox[{"x21", ".", "x20"}]}], 
+     SuperscriptBox["x21", "4"]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], "Title"], 
+   2 $CellContext`x20^(-2) $CellContext`x20l $CellContext`x21^(-4) 
+    Cross[$CellContext`x10, $CellContext`x21]^2 - $CellContext`x20^(-2) \
+$CellContext`x20l $CellContext`x21^(-2) 
+   Dot[$CellContext`x20, $CellContext`x20 + $CellContext`x21] + 
+   2 $CellContext`x20l $CellContext`x21^(-4) 
+    Dot[$CellContext`x21, $CellContext`x20]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2657]:=",ExpressionUUID->"0d897ab8-308f-4fc4-b82b-156339c73a7e"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    FractionBox[
+     RowBox[{"3", " ", "x21l", " ", 
+      RowBox[{"x21", ".", "x10"}]}], 
+     SuperscriptBox["x21", "4"]], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {
+   3 $CellContext`x21^(-4) $CellContext`x21l 
+    Dot[$CellContext`x21, $CellContext`x10]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2657]:=",ExpressionUUID->"67125d0b-4211-4f05-b565-5bc3a282dc41"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2657]:=",ExpressionUUID->"7a927dc4-d4d1-45a4-a268-ff5a3785f672"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ StyleBox["IR divergent terms in ",
+  FontSize->24,
+  FontWeight->"Bold"],
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["G", "4"], TraditionalForm]],
+  FormatType->TraditionalForm,ExpressionUUID->
+  "bc128daf-6683-40c7-9014-ef32d65124e6"],
+ StyleBox[", ",
+  FontWeight->"Bold"],
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["G", "5"], ",", " ", 
+    SubscriptBox["G", "6"]}], TraditionalForm]],
+  FormatType->TraditionalForm,
+  FontWeight->"Bold",ExpressionUUID->"acef1241-acac-4ab7-bd50-d5a422bb7f4c"],
+ StyleBox[" ",
+  FontWeight->"Bold"],
+ StyleBox["equation",
+  FontSize->24,
+  FontWeight->"Bold"]
+}], "Section",ExpressionUUID->"08c03f9e-18a1-4ac5-bca9-f201ac49abf7"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"termB", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"2", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          FractionBox[
+           RowBox[{"eik", " ", "x21k", " "}], 
+           SuperscriptBox["x21", "2"]], 
+          RowBox[{"(", 
+           RowBox[{"x21l", "+", " ", "x20l"}], ")"}]}], " ", "-", " ", 
+         RowBox[{"eik", " ", "x20k", " ", 
+          SuperscriptBox["a", "2"], 
+          RowBox[{"(", 
+           RowBox[{"x21l", "+", " ", "x20l"}], ")"}]}], "+", " ", 
+         RowBox[{"2", " ", "x21i", " ", 
+          FractionBox[
+           RowBox[{"Cross", "[", 
+            RowBox[{"x21", ",", " ", "x10"}], "]"}], 
+           SuperscriptBox["x21", "2"]], 
+          SuperscriptBox["a", "2"], " ", 
+          RowBox[{"(", 
+           RowBox[{"x21l", "+", " ", "x20l"}], ")"}]}]}], ")"}]}], " ", "//", 
+      " ", "Expand"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "termB", "]"}], ";"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellLabel->
+  "In[2659]:=",ExpressionUUID->"d0d2b8a1-d91e-4064-8fcf-bd5b19159c9f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{"2", " ", "eik", " ", "x20k", " ", "x20l"}], 
+      SuperscriptBox["x20", "2"]]}], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "eik", " ", "x20l", " ", "x21k"}], 
+     SuperscriptBox["x21", "2"]], "-", 
+    FractionBox[
+     RowBox[{"2", " ", "eik", " ", "x20k", " ", "x21l"}], 
+     SuperscriptBox["x20", "2"]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "eik", " ", "x21k", " ", "x21l"}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "x20l", " ", "x21i", " ", 
+      RowBox[{"x21", "\[Cross]", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "x21i", " ", "x21l", " ", 
+      RowBox[{"x21", "\[Cross]", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], 
+    "Title"], (-2) $CellContext`eik $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x20l + 
+   2 $CellContext`eik $CellContext`x20l $CellContext`x21^(-2) \
+$CellContext`x21k - 
+   2 $CellContext`eik $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x21l + 
+   2 $CellContext`eik $CellContext`x21^(-2) $CellContext`x21k \
+$CellContext`x21l + 
+   4 $CellContext`x20^(-2) $CellContext`x20l $CellContext`x21^(-2) \
+$CellContext`x21i Cross[$CellContext`x21, $CellContext`x10] + 
+   4 $CellContext`x20^(-2) $CellContext`x21^(-2) $CellContext`x21i \
+$CellContext`x21l Cross[$CellContext`x21, $CellContext`x10]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2659]:=",ExpressionUUID->"0bdf51ef-ffe1-45ca-9e60-ab453754ca6a"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"2", " ", "eik", " ", "x10k", " ", "x10l"}], 
+       SuperscriptBox["x21", "2"]]}], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "eik", " ", 
+        SuperscriptBox["x10", "2"], " ", "x21k", " ", "x21l"}], 
+       SuperscriptBox["x21", "4"]]}], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "x10l", " ", "x21i", " ", 
+        RowBox[{"x10", "\[Cross]", "x21"}]}], 
+       SuperscriptBox["x21", "4"]]}], ",", 
+     FractionBox[
+      RowBox[{"4", " ", "eik", " ", "x10l", " ", "x21k", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     FractionBox[
+      RowBox[{"8", " ", "eik", " ", "x10k", " ", "x21l", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     FractionBox[
+      RowBox[{"16", " ", "x21i", " ", "x21l", " ", 
+       RowBox[{"x10", "\[Cross]", "x21"}], " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "6"]]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {(-2) $CellContext`eik $CellContext`x10k $CellContext`x10l \
+$CellContext`x21^(-2), (-4) $CellContext`eik $CellContext`x10^2 \
+$CellContext`x21^(-4) $CellContext`x21k $CellContext`x21l, (-4) \
+$CellContext`x10l $CellContext`x21^(-4) $CellContext`x21i 
+    Cross[$CellContext`x10, $CellContext`x21], 
+    4 $CellContext`eik $CellContext`x10l $CellContext`x21^(-4) \
+$CellContext`x21k Dot[$CellContext`x21, $CellContext`x10], 
+    8 $CellContext`eik $CellContext`x10k $CellContext`x21^(-4) \
+$CellContext`x21l Dot[$CellContext`x21, $CellContext`x10], 
+    16 $CellContext`x21^(-6) $CellContext`x21i $CellContext`x21l 
+    Cross[$CellContext`x10, $CellContext`x21] 
+    Dot[$CellContext`x21, $CellContext`x10]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2659]:=",ExpressionUUID->"6bf9347c-2a41-4c5a-890c-e95a572250e8"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "eik", " ", "x10k", " ", "x21l"}], 
+       SuperscriptBox["x21", "2"]]}], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"8", " ", "x21i", " ", "x21l", " ", 
+        RowBox[{"x10", "\[Cross]", "x21"}]}], 
+       SuperscriptBox["x21", "4"]]}], ",", 
+     FractionBox[
+      RowBox[{"8", " ", "eik", " ", "x21k", " ", "x21l", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "4"]]}], "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {(-4) $CellContext`eik $CellContext`x10k $CellContext`x21^(-2) \
+$CellContext`x21l, (-8) $CellContext`x21^(-4) $CellContext`x21i \
+$CellContext`x21l Cross[$CellContext`x10, $CellContext`x21], 
+    8 $CellContext`eik $CellContext`x21^(-4) $CellContext`x21k \
+$CellContext`x21l Dot[$CellContext`x21, $CellContext`x10]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2659]:=",ExpressionUUID->"04c70c9b-510c-4ed5-9a4b-b287f660d3f9"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term31", " ", "=", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"eli", " ", 
+        RowBox[{"(", 
+         RowBox[{"1", "+", "  ", 
+          RowBox[{"2", " ", 
+           RowBox[{"x20", ".", "x10"}], " ", 
+           SuperscriptBox["a", "2"]}], "-", " ", 
+          RowBox[{
+           SuperscriptBox["x21", "2"], 
+           SuperscriptBox["a", "2"]}]}], ")"}]}], " ", "-", " ", 
+       RowBox[{"2", " ", "x21i", " ", "elk", " ", "x20k", " ", 
+        SuperscriptBox["a", "2"], 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], " ", 
+           RowBox[{"x20", ".", "x10"}], " ", 
+           SuperscriptBox["a", "2"]}], "+", " ", "3"}], ")"}]}], " ", "+", 
+       " ", 
+       RowBox[{"2", 
+        SuperscriptBox["a", "2"], " ", "x21i", " ", "elk", " ", "x21k", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox[
+           RowBox[{"2", " ", 
+            RowBox[{"x10", ".", "x21"}]}], 
+           SuperscriptBox["x21", "2"]], "+", "3"}], ")"}]}], " ", "+", " ", 
+       RowBox[{"2", " ", "x20i", " ", "elk", " ", "x20k", " ", 
+        SuperscriptBox["x21", "2"], " ", 
+        SuperscriptBox["a", "4"]}], "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " "}], 
+         SuperscriptBox["x21", "2"]], "x21i", " ", "elk", " ", "x21k"}]}], 
+      "  ", "//", " ", "Expand"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term31", "]"}], ";"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellLabel->
+  "In[2661]:=",ExpressionUUID->"eb555523-c994-40d3-a465-380b35e1c5a0"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"eli", "-", 
+    FractionBox[
+     RowBox[{"eli", " ", 
+      SuperscriptBox["x21", "2"]}], 
+     SuperscriptBox["x20", "2"]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x20i", " ", "x20k", " ", 
+      SuperscriptBox["x21", "2"]}], 
+     SuperscriptBox["x20", "4"]], "-", 
+    FractionBox[
+     RowBox[{"6", " ", "elk", " ", "x20k", " ", "x21i"}], 
+     SuperscriptBox["x20", "2"]], "+", 
+    FractionBox[
+     RowBox[{"6", " ", "elk", " ", "x21i", " ", "x21k"}], 
+     SuperscriptBox["x20", "2"]], "-", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x21i", " ", "x21k"}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+      RowBox[{"x10", ".", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "eli", " ", 
+      RowBox[{"x20", ".", "x10"}]}], 
+     SuperscriptBox["x20", "2"]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+      RowBox[{"x20", ".", "x10"}]}], 
+     SuperscriptBox["x20", "4"]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], 
+    "Title"], $CellContext`eli - $CellContext`eli $CellContext`x20^(-2) \
+$CellContext`x21^2 + 
+   2 $CellContext`elk $CellContext`x20^(-4) $CellContext`x20i \
+$CellContext`x20k $CellContext`x21^2 - 
+   6 $CellContext`elk $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x21i + 
+   6 $CellContext`elk $CellContext`x20^(-2) $CellContext`x21i \
+$CellContext`x21k - 
+   2 $CellContext`elk $CellContext`x21^(-2) $CellContext`x21i \
+$CellContext`x21k + 
+   4 $CellContext`elk $CellContext`x20^(-2) $CellContext`x21^(-2) \
+$CellContext`x21i $CellContext`x21k Dot[$CellContext`x10, $CellContext`x21] + 
+   2 $CellContext`eli $CellContext`x20^(-2) 
+    Dot[$CellContext`x20, $CellContext`x10] + 
+   4 $CellContext`elk $CellContext`x20^(-4) $CellContext`x20k \
+$CellContext`x21i Dot[$CellContext`x20, $CellContext`x10]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2661]:=",ExpressionUUID->"131b02a0-40fe-4cb0-9d67-7cfc25c79a5a"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"eli", " ", 
+       SuperscriptBox["x10", "2"]}], 
+      SuperscriptBox["x21", "2"]], ",", 
+     FractionBox[
+      RowBox[{"2", " ", "elk", " ", "x10i", " ", "x10k"}], 
+      SuperscriptBox["x21", "2"]], ",", 
+     FractionBox[
+      RowBox[{"8", " ", "elk", " ", 
+       SuperscriptBox["x10", "2"], " ", "x21i", " ", "x21k"}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     FractionBox[
+      RowBox[{"8", " ", "elk", " ", "x10k", " ", "x21i", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"8", " ", "elk", " ", "x10i", " ", "x21k", " ", 
+        RowBox[{"x21", ".", "x10"}]}], 
+       SuperscriptBox["x21", "4"]]}], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "eli", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+       SuperscriptBox["x21", "4"]]}], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"16", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+       SuperscriptBox["x21", "6"]]}]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {$CellContext`eli $CellContext`x10^2 $CellContext`x21^(-2), 
+    2 $CellContext`elk $CellContext`x10i $CellContext`x10k \
+$CellContext`x21^(-2), 
+    8 $CellContext`elk $CellContext`x10^2 $CellContext`x21^(-4) \
+$CellContext`x21i $CellContext`x21k, 
+    8 $CellContext`elk $CellContext`x10k $CellContext`x21^(-4) \
+$CellContext`x21i 
+    Dot[$CellContext`x21, $CellContext`x10], (-8) $CellContext`elk \
+$CellContext`x10i $CellContext`x21^(-4) $CellContext`x21k 
+    Dot[$CellContext`x21, $CellContext`x10], (-4) $CellContext`eli \
+$CellContext`x21^(-4) 
+    Dot[$CellContext`x21, $CellContext`x10]^2, (-16) $CellContext`elk \
+$CellContext`x21^(-6) $CellContext`x21i $CellContext`x21k 
+    Dot[$CellContext`x21, $CellContext`x10]^2}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2661]:=",ExpressionUUID->"66564ffd-409c-4536-b9e7-933b3fcb1039"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "elk", " ", "x10k", " ", "x21i"}], 
+       SuperscriptBox["x21", "2"]]}], ",", 
+     FractionBox[
+      RowBox[{"2", " ", "elk", " ", "x10i", " ", "x21k"}], 
+      SuperscriptBox["x21", "2"]], ",", 
+     FractionBox[
+      RowBox[{"4", " ", "eli", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "2"]]}], "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {(-4) $CellContext`elk $CellContext`x10k $CellContext`x21^(-2) \
+$CellContext`x21i, 
+    2 $CellContext`elk $CellContext`x10i $CellContext`x21^(-2) \
+$CellContext`x21k, 4 $CellContext`eli $CellContext`x21^(-2) 
+    Dot[$CellContext`x21, $CellContext`x10]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2661]:=",ExpressionUUID->"abd89a07-f2bf-43ac-b7fd-cdd03d99aac0"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"term34", " ", "=", 
+   RowBox[{
+    RowBox[{
+     FractionBox["1", 
+      SuperscriptBox["x21", "2"]], 
+     RowBox[{"(", " ", 
+      RowBox[{
+       RowBox[{"eli", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          SuperscriptBox["x21", 
+           RowBox[{"2", " "}]], "+", "  ", 
+          RowBox[{"2", " ", 
+           RowBox[{"x20", ".", "x10"}]}], " ", "-", " ", 
+          SuperscriptBox["x21", "2"]}], ")"}]}], " ", "-", " ", 
+       RowBox[{"2", " ", "x21i", " ", "elk", " ", "x20k", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], " ", 
+           RowBox[{"x20", ".", "x10"}], " ", 
+           SuperscriptBox["a", "2"]}], "+", " ", "3"}], ")"}]}], " ", "+", 
+       " ", 
+       RowBox[{"2", " ", "x21i", " ", "elk", " ", "x21k", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox[
+           RowBox[{"2", " ", 
+            RowBox[{"x10", ".", "x21"}]}], 
+           SuperscriptBox["x21", "2"]], "+", "3"}], ")"}]}], " ", "+", " ", 
+       RowBox[{"2", " ", "x20i", " ", "elk", " ", "x20k", " ", 
+        SuperscriptBox["x21", "2"], " ", 
+        SuperscriptBox["a", "2"]}], "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", 
+          SuperscriptBox["x21", "2"]}], 
+         SuperscriptBox["x21", "2"]], "x21i", " ", "elk", " ", "x21k"}]}], 
+      " ", ")"}]}], " ", "//", " ", "Expand"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SimplifyTerm", "[", "term34", "]"}], 
+  ";"}], "\[IndentingNewLine]"}], "Input",
+ CellLabel->
+  "In[2669]:=",ExpressionUUID->"9ad52ab1-d908-4fab-83f4-d016f79a4342"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x20i", " ", "x20k"}], 
+     SuperscriptBox["x20", "2"]], "-", 
+    FractionBox[
+     RowBox[{"6", " ", "elk", " ", "x20k", " ", "x21i"}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "elk", " ", "x21i", " ", "x21k"}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+      RowBox[{"x10", ".", "x21"}]}], 
+     SuperscriptBox["x21", "4"]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "eli", " ", 
+      RowBox[{"x20", ".", "x10"}]}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+      RowBox[{"x20", ".", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], "Title"], 
+   2 $CellContext`elk $CellContext`x20^(-2) $CellContext`x20i \
+$CellContext`x20k - 
+   6 $CellContext`elk $CellContext`x20k $CellContext`x21^(-2) \
+$CellContext`x21i + 
+   4 $CellContext`elk $CellContext`x21^(-2) $CellContext`x21i \
+$CellContext`x21k + 
+   4 $CellContext`elk $CellContext`x21^(-4) $CellContext`x21i \
+$CellContext`x21k Dot[$CellContext`x10, $CellContext`x21] + 
+   2 $CellContext`eli $CellContext`x21^(-2) 
+    Dot[$CellContext`x20, $CellContext`x10] + 
+   4 $CellContext`elk $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x21^(-2) $CellContext`x21i 
+    Dot[$CellContext`x20, $CellContext`x10]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2669]:=",ExpressionUUID->"eb16b9a7-a44e-4eed-ba73-0bf0566154ec"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"2", " ", "eli", " ", 
+       SuperscriptBox["x10", "2"]}], 
+      SuperscriptBox["x21", "2"]], ",", 
+     FractionBox[
+      RowBox[{"2", " ", "elk", " ", "x10i", " ", "x10k"}], 
+      SuperscriptBox["x21", "2"]], ",", 
+     FractionBox[
+      RowBox[{"6", " ", "elk", " ", 
+       SuperscriptBox["x10", "2"], " ", "x21i", " ", "x21k"}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "elk", " ", "x10i", " ", "x21k", " ", 
+        RowBox[{"x21", ".", "x10"}]}], 
+       SuperscriptBox["x21", "4"]]}], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"8", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+       SuperscriptBox["x21", "6"]]}]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {
+   2 $CellContext`eli $CellContext`x10^2 $CellContext`x21^(-2), 
+    2 $CellContext`elk $CellContext`x10i $CellContext`x10k \
+$CellContext`x21^(-2), 
+    6 $CellContext`elk $CellContext`x10^2 $CellContext`x21^(-4) \
+$CellContext`x21i $CellContext`x21k, (-4) $CellContext`elk $CellContext`x10i \
+$CellContext`x21^(-4) $CellContext`x21k 
+    Dot[$CellContext`x21, $CellContext`x10], (-8) $CellContext`elk \
+$CellContext`x21^(-6) $CellContext`x21i $CellContext`x21k 
+    Dot[$CellContext`x21, $CellContext`x10]^2}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2669]:=",ExpressionUUID->"580adc28-8c55-4fdf-9fe5-deeb401c8fd7"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "elk", " ", "x10k", " ", "x21i"}], 
+       SuperscriptBox["x21", "2"]]}], ",", 
+     FractionBox[
+      RowBox[{"2", " ", "elk", " ", "x10i", " ", "x21k"}], 
+      SuperscriptBox["x21", "2"]], ",", 
+     FractionBox[
+      RowBox[{"2", " ", "eli", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "2"]], ",", 
+     FractionBox[
+      RowBox[{"4", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "4"]]}], "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {(-4) $CellContext`elk $CellContext`x10k $CellContext`x21^(-2) \
+$CellContext`x21i, 
+    2 $CellContext`elk $CellContext`x10i $CellContext`x21^(-2) \
+$CellContext`x21k, 2 $CellContext`eli $CellContext`x21^(-2) 
+    Dot[$CellContext`x21, $CellContext`x10], 
+    4 $CellContext`elk $CellContext`x21^(-4) $CellContext`x21i \
+$CellContext`x21k Dot[$CellContext`x21, $CellContext`x10]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2669]:=",ExpressionUUID->"53e5ad71-dc1a-481e-a672-3c4d45cda1e1"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term32", " ", "=", " ", 
+     RowBox[{
+      RowBox[{
+       FractionBox[
+        RowBox[{"elk", " ", "x21k", " ", "x21i"}], 
+        SuperscriptBox["x21", "2"]], " ", "+", " ", 
+       FractionBox[
+        RowBox[{"2", " ", 
+         SuperscriptBox["a", "2"], " ", "elk", " ", "x21k", " ", "x21i", " ", 
+         
+         RowBox[{"x20", ".", "x10"}]}], 
+        SuperscriptBox["x21", "2"]], "-", " ", 
+       RowBox[{"elk", " ", "x21k", " ", "x21i", " ", 
+        SuperscriptBox["a", "2"]}], " ", "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", "elk", " ", "x21k", "  ", "x21i", " ", 
+          RowBox[{"x21", ".", "x20", " "}]}], 
+         SuperscriptBox["x21", "2"]], 
+        SuperscriptBox["a", "2"], 
+        RowBox[{"(", " ", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], " ", 
+           RowBox[{"x20", ".", "x10"}], " ", 
+           SuperscriptBox["a", "2"]}], "+", " ", "3"}], ")"}]}], " ", "+", 
+       " ", 
+       RowBox[{"2", " ", "elk", " ", "x21k", " ", "x21i", " ", 
+        SuperscriptBox["a", "2"], 
+        RowBox[{"(", " ", 
+         RowBox[{
+          FractionBox[
+           RowBox[{"2", " ", 
+            RowBox[{"x10", ".", "x21"}]}], 
+           SuperscriptBox["x21", "2"]], "+", " ", "3"}], ")"}]}], "+", " ", 
+       RowBox[{"2", " ", "elk", " ", "x21k", " ", "x20i", " ", 
+        RowBox[{"x20", ".", "x21"}], " ", 
+        SuperscriptBox["a", "4"]}], " ", "-", " ", 
+       FractionBox[
+        RowBox[{"2", " ", "elk", " ", "x21k", " ", "x21i", " "}], 
+        SuperscriptBox["x21", "2"]]}], " ", "//", "Expand"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term32", "]"}], ";"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellLabel->
+  "In[2667]:=",ExpressionUUID->"8b4d38e4-3190-42ee-bee1-8989166f7465"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"5", " ", "elk", " ", "x21i", " ", "x21k"}], 
+     SuperscriptBox["x20", "2"]], "-", 
+    FractionBox[
+     RowBox[{"elk", " ", "x21i", " ", "x21k"}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+      RowBox[{"x10", ".", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+      RowBox[{"x20", ".", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x20i", " ", "x21k", " ", 
+      RowBox[{"x20", ".", "x21"}]}], 
+     SuperscriptBox["x20", "4"]], "-", 
+    FractionBox[
+     RowBox[{"6", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+      RowBox[{"x21", ".", "x20"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+      RowBox[{"x20", ".", "x10"}], " ", 
+      RowBox[{"x21", ".", "x20"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "4"], " ", 
+      SuperscriptBox["x21", "2"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], "Title"], 
+   5 $CellContext`elk $CellContext`x20^(-2) $CellContext`x21i \
+$CellContext`x21k - $CellContext`elk $CellContext`x21^(-2) $CellContext`x21i \
+$CellContext`x21k + 
+   4 $CellContext`elk $CellContext`x20^(-2) $CellContext`x21^(-2) \
+$CellContext`x21i $CellContext`x21k Dot[$CellContext`x10, $CellContext`x21] + 
+   2 $CellContext`elk $CellContext`x20^(-2) $CellContext`x21^(-2) \
+$CellContext`x21i $CellContext`x21k Dot[$CellContext`x20, $CellContext`x10] + 
+   2 $CellContext`elk $CellContext`x20^(-4) $CellContext`x20i \
+$CellContext`x21k Dot[$CellContext`x20, $CellContext`x21] - 
+   6 $CellContext`elk $CellContext`x20^(-2) $CellContext`x21^(-2) \
+$CellContext`x21i $CellContext`x21k Dot[$CellContext`x21, $CellContext`x20] + 
+   4 $CellContext`elk $CellContext`x20^(-4) $CellContext`x21^(-2) \
+$CellContext`x21i $CellContext`x21k Dot[$CellContext`x20, $CellContext`x10] 
+    Dot[$CellContext`x21, $CellContext`x20]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2667]:=",ExpressionUUID->"c5b2b52f-5d85-433f-8a32-4cf531f616a0"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"9", " ", "elk", " ", 
+       SuperscriptBox["x10", "2"], " ", "x21i", " ", "x21k"}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"6", " ", "elk", " ", "x10i", " ", "x21k", " ", 
+        RowBox[{"x21", ".", "x10"}]}], 
+       SuperscriptBox["x21", "4"]]}], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"12", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+       SuperscriptBox["x21", "6"]]}]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {
+   9 $CellContext`elk $CellContext`x10^2 $CellContext`x21^(-4) \
+$CellContext`x21i $CellContext`x21k, (-6) $CellContext`elk $CellContext`x10i \
+$CellContext`x21^(-4) $CellContext`x21k 
+    Dot[$CellContext`x21, $CellContext`x10], (-12) $CellContext`elk \
+$CellContext`x21^(-6) $CellContext`x21i $CellContext`x21k 
+    Dot[$CellContext`x21, $CellContext`x10]^2}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2667]:=",ExpressionUUID->"1ab4d7a0-bda9-4a00-8fa4-1383f4368767"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x10i", " ", "x21k"}], 
+     SuperscriptBox["x21", "2"]], "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {
+   2 $CellContext`elk $CellContext`x10i $CellContext`x21^(-2) \
+$CellContext`x21k}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2667]:=",ExpressionUUID->"2198e4e2-c78f-4bbb-9f5c-4db7000b6410"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"term35", " ", "=", " ", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"elk", " ", "x20k", " ", "x20i"}], 
+      SuperscriptBox["x21", "2"]], " ", "+", " ", 
+     RowBox[{
+      FractionBox[
+       RowBox[{"2", " ", "elk", " ", "x20k", " ", "x20i", " ", 
+        RowBox[{"x20", ".", "x10"}]}], 
+       SuperscriptBox["x21", "2"]], 
+      SuperscriptBox["a", "2"]}], "-", " ", 
+     RowBox[{"elk", " ", "x20k", " ", "x20i", " ", 
+      SuperscriptBox["a", "2"]}], " ", "+", " ", 
+     RowBox[{
+      FractionBox[
+       RowBox[{"4", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+        RowBox[{"x20", ".", "x10"}]}], 
+       SuperscriptBox["x21", "2"]], 
+      SuperscriptBox["a", "2"]}], "-", " ", 
+     FractionBox[
+      RowBox[{"6", " ", "elk", " ", "x20k", " ", "x21i", " "}], 
+      SuperscriptBox["x21", "2"]], "+", " ", 
+     RowBox[{
+      FractionBox[
+       RowBox[{"4", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+        RowBox[{"x20", ".", "x21"}], " ", 
+        RowBox[{"x10", ".", "x21"}]}], 
+       SuperscriptBox["x21", "4"]], 
+      SuperscriptBox["a", "2"]}], " ", "+", " ", 
+     RowBox[{
+      FractionBox[
+       RowBox[{"6", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+        RowBox[{"x20", ".", "x21"}]}], 
+       SuperscriptBox["x21", "2"]], 
+      SuperscriptBox["a", "2"]}], " ", "+", " ", 
+     RowBox[{"2", " ", "elk", " ", "x20k", " ", "x20i", " ", 
+      SuperscriptBox["a", "2"]}], "-", " ", 
+     FractionBox[
+      RowBox[{"2", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+       RowBox[{"x21", ".", "x20"}]}], 
+      SuperscriptBox["x21", "4"]]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term35", "]"}], ";"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellLabel->
+  "In[2671]:=",ExpressionUUID->"6e4b65b0-d589-44ca-918b-93e69aa10092"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SuperscriptBox["a", "2"], " ", "elk", " ", "x20i", " ", "x20k"}], "+", 
+  FractionBox[
+   RowBox[{"elk", " ", "x20i", " ", "x20k"}], 
+   SuperscriptBox["x21", "2"]], "-", 
+  FractionBox[
+   RowBox[{"6", " ", "elk", " ", "x20k", " ", "x21i"}], 
+   SuperscriptBox["x21", "2"]], "+", 
+  FractionBox[
+   RowBox[{"2", " ", 
+    SuperscriptBox["a", "2"], " ", "elk", " ", "x20i", " ", "x20k", " ", 
+    RowBox[{"x20", ".", "x10"}]}], 
+   SuperscriptBox["x21", "2"]], "+", 
+  FractionBox[
+   RowBox[{"4", " ", 
+    SuperscriptBox["a", "2"], " ", "elk", " ", "x20k", " ", "x21i", " ", 
+    RowBox[{"x20", ".", "x10"}]}], 
+   SuperscriptBox["x21", "2"]], "+", 
+  FractionBox[
+   RowBox[{"6", " ", 
+    SuperscriptBox["a", "2"], " ", "elk", " ", "x20k", " ", "x21i", " ", 
+    RowBox[{"x20", ".", "x21"}]}], 
+   SuperscriptBox["x21", "2"]], "+", 
+  FractionBox[
+   RowBox[{"4", " ", 
+    SuperscriptBox["a", "2"], " ", "elk", " ", "x20k", " ", "x21i", " ", 
+    RowBox[{"x10", ".", "x21"}], " ", 
+    RowBox[{"x20", ".", "x21"}]}], 
+   SuperscriptBox["x21", "4"]], "-", 
+  FractionBox[
+   RowBox[{"2", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+    RowBox[{"x21", ".", "x20"}]}], 
+   SuperscriptBox["x21", "4"]]}]], "Output",
+ CellLabel->
+  "Out[2671]=",ExpressionUUID->"018177f6-9613-408e-89ac-dc80f839425f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"elk", " ", "x20i", " ", "x20k"}], 
+     SuperscriptBox["x20", "2"]], "+", 
+    FractionBox[
+     RowBox[{"elk", " ", "x20i", " ", "x20k"}], 
+     SuperscriptBox["x21", "2"]], "-", 
+    FractionBox[
+     RowBox[{"6", " ", "elk", " ", "x20k", " ", "x21i"}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x20i", " ", "x20k", " ", 
+      RowBox[{"x20", ".", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+      RowBox[{"x20", ".", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"6", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+      RowBox[{"x20", ".", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+      RowBox[{"x10", ".", "x21"}], " ", 
+      RowBox[{"x20", ".", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "4"]}]], "-", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x20k", " ", "x21i", " ", 
+      RowBox[{"x21", ".", "x20"}]}], 
+     SuperscriptBox["x21", "4"]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], 
+    "Title"], $CellContext`elk $CellContext`x20^(-2) $CellContext`x20i \
+$CellContext`x20k + $CellContext`elk $CellContext`x20i $CellContext`x20k \
+$CellContext`x21^(-2) - 
+   6 $CellContext`elk $CellContext`x20k $CellContext`x21^(-2) \
+$CellContext`x21i + 
+   2 $CellContext`elk $CellContext`x20^(-2) $CellContext`x20i \
+$CellContext`x20k $CellContext`x21^(-2) 
+    Dot[$CellContext`x20, $CellContext`x10] + 
+   4 $CellContext`elk $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x21^(-2) $CellContext`x21i 
+    Dot[$CellContext`x20, $CellContext`x10] + 
+   6 $CellContext`elk $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x21^(-2) $CellContext`x21i 
+    Dot[$CellContext`x20, $CellContext`x21] + 
+   4 $CellContext`elk $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x21^(-4) $CellContext`x21i 
+    Dot[$CellContext`x10, $CellContext`x21] 
+    Dot[$CellContext`x20, $CellContext`x21] - 
+   2 $CellContext`elk $CellContext`x20k $CellContext`x21^(-4) \
+$CellContext`x21i Dot[$CellContext`x21, $CellContext`x20]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2671]:=",ExpressionUUID->"e769448e-19d5-46b9-8c46-032e97475730"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"2", " ", "elk", " ", "x10i", " ", "x10k"}], 
+      SuperscriptBox["x21", "2"]], ",", 
+     FractionBox[
+      RowBox[{"13", " ", "elk", " ", 
+       SuperscriptBox["x10", "2"], " ", "x21i", " ", "x21k"}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"28", " ", "elk", " ", "x21i", " ", "x21k", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+       SuperscriptBox["x21", "6"]]}]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {
+   2 $CellContext`elk $CellContext`x10i $CellContext`x10k \
+$CellContext`x21^(-2), 
+    13 $CellContext`elk $CellContext`x10^2 $CellContext`x21^(-4) \
+$CellContext`x21i $CellContext`x21k, (-28) $CellContext`elk \
+$CellContext`x21^(-6) $CellContext`x21i $CellContext`x21k 
+    Dot[$CellContext`x21, $CellContext`x10]^2}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2671]:=",ExpressionUUID->"a4a1b1a3-643e-43dc-8825-0b5c31804641"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    FractionBox[
+     RowBox[{"2", " ", "elk", " ", "x10i", " ", "x21k"}], 
+     SuperscriptBox["x21", "2"]], "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], "Title"], {
+   2 $CellContext`elk $CellContext`x10i $CellContext`x21^(-2) \
+$CellContext`x21k}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2671]:=",ExpressionUUID->"6294f854-15ac-444e-8b9e-0a7ca529b4fb"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term33", " ", "=", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"eik", " ", "x21k", " ", "x21l", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox["1", 
+           SuperscriptBox["x21", "2"]], "+", " ", 
+          RowBox[{
+           SuperscriptBox["a", "2"], "2", 
+           FractionBox[
+            RowBox[{"x20", ".", "x10"}], 
+            SuperscriptBox["x21", "2"]]}], "-", " ", 
+          SuperscriptBox["a", "2"]}], ")"}]}], " ", "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", "x21i", " ", "x21l", " ", 
+          RowBox[{"Cross", "[", 
+           RowBox[{"x10", ",", " ", "x21"}], "]"}]}], 
+         SuperscriptBox["x21", "2"]], 
+        SuperscriptBox["a", "2"], 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "2"}], " ", 
+           SuperscriptBox["a", "2"], 
+           RowBox[{"x20", ".", "x10"}]}], " ", "+", " ", "3"}], ")"}]}], " ", 
+       "+", " ", 
+       RowBox[{"2", " ", "x20i", " ", "x21l", " ", 
+        RowBox[{"Cross", "[", 
+         RowBox[{"x10", ",", " ", "x21"}], "]"}], " ", 
+        SuperscriptBox["a", "4"]}]}], "//", " ", "Expand"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term33", "]"}], ";"}]}]}]], "Input",
+ CellLabel->
+  "In[2673]:=",ExpressionUUID->"2057ed2b-c792-49ce-ad7e-c1ab38c397e8"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{"eik", " ", "x21k", " ", "x21l"}], 
+      SuperscriptBox["x20", "2"]]}], "+", 
+    FractionBox[
+     RowBox[{"eik", " ", "x21k", " ", "x21l"}], 
+     SuperscriptBox["x21", "2"]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "x20i", " ", "x21l", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}]}], 
+     SuperscriptBox["x20", "4"]], "-", 
+    FractionBox[
+     RowBox[{"6", " ", "x21i", " ", "x21l", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "eik", " ", "x21k", " ", "x21l", " ", 
+      RowBox[{"x20", ".", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "x21i", " ", "x21l", " ", 
+      RowBox[{"x10", "\[Cross]", "x21"}], " ", 
+      RowBox[{"x20", ".", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "4"], " ", 
+      SuperscriptBox["x21", "2"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], 
+    "Title"], -$CellContext`eik $CellContext`x20^(-2) $CellContext`x21k \
+$CellContext`x21l + $CellContext`eik $CellContext`x21^(-2) $CellContext`x21k \
+$CellContext`x21l + 
+   2 $CellContext`x20^(-4) $CellContext`x20i $CellContext`x21l 
+    Cross[$CellContext`x10, $CellContext`x21] - 
+   6 $CellContext`x20^(-2) $CellContext`x21^(-2) $CellContext`x21i \
+$CellContext`x21l Cross[$CellContext`x10, $CellContext`x21] + 
+   2 $CellContext`eik $CellContext`x20^(-2) $CellContext`x21^(-2) \
+$CellContext`x21k $CellContext`x21l Dot[$CellContext`x20, $CellContext`x10] + 
+   4 $CellContext`x20^(-4) $CellContext`x21^(-2) $CellContext`x21i \
+$CellContext`x21l Cross[$CellContext`x10, $CellContext`x21] 
+    Dot[$CellContext`x20, $CellContext`x10]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2673]:=",ExpressionUUID->"8e650f7d-e84d-4bfd-8820-60dd47127f1b"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"eik", " ", 
+       SuperscriptBox["x10", "2"], " ", "x21k", " ", "x21l"}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     FractionBox[
+      RowBox[{"2", " ", "x10i", " ", "x21l", " ", 
+       RowBox[{"x10", "\[Cross]", "x21"}]}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     FractionBox[
+      RowBox[{"8", " ", "x21i", " ", "x21l", " ", 
+       RowBox[{"x10", "\[Cross]", "x21"}], " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "6"]], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "eik", " ", "x21k", " ", "x21l", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+       SuperscriptBox["x21", "6"]]}]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {$CellContext`eik $CellContext`x10^2 $CellContext`x21^(-4) \
+$CellContext`x21k $CellContext`x21l, 
+    2 $CellContext`x10i $CellContext`x21^(-4) $CellContext`x21l 
+    Cross[$CellContext`x10, $CellContext`x21], 
+    8 $CellContext`x21^(-6) $CellContext`x21i $CellContext`x21l 
+    Cross[$CellContext`x10, $CellContext`x21] 
+    Dot[$CellContext`x21, $CellContext`x10], (-4) $CellContext`eik \
+$CellContext`x21^(-6) $CellContext`x21k $CellContext`x21l 
+    Dot[$CellContext`x21, $CellContext`x10]^2}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2673]:=",ExpressionUUID->"bd31af85-dc5a-43b7-b576-eaef9d1149a5"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "x21i", " ", "x21l", " ", 
+        RowBox[{"x10", "\[Cross]", "x21"}]}], 
+       SuperscriptBox["x21", "4"]]}], ",", 
+     FractionBox[
+      RowBox[{"4", " ", "eik", " ", "x21k", " ", "x21l", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "4"]]}], "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {(-4) $CellContext`x21^(-4) $CellContext`x21i $CellContext`x21l 
+    Cross[$CellContext`x10, $CellContext`x21], 
+    4 $CellContext`eik $CellContext`x21^(-4) $CellContext`x21k \
+$CellContext`x21l Dot[$CellContext`x21, $CellContext`x10]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2673]:=",ExpressionUUID->"ed924c41-f88f-495e-a7db-14d38d7ed782"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term36", " ", "=", " ", 
+     RowBox[{
+      RowBox[{
+       FractionBox[
+        RowBox[{"eik", " ", "x20k", " ", "x20l", " "}], 
+        SuperscriptBox["x21", "2"]], "+", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", "eik", " ", "x20k", " ", "x20l", " ", 
+          RowBox[{"x20", ".", "x10"}]}], 
+         SuperscriptBox["x21", "2"]], 
+        SuperscriptBox["a", "2"]}], "-", 
+       RowBox[{"eik", " ", "x20k", " ", "x20l", 
+        SuperscriptBox["a", "2"]}], " ", "+", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", "x21i", " ", "x20l", " ", 
+          RowBox[{"Cross", "[", 
+           RowBox[{"x21", ",", " ", "x10"}], "]"}]}], 
+         SuperscriptBox["x21", "2"]], 
+        SuperscriptBox["a", "2"], 
+        RowBox[{"(", " ", 
+         RowBox[{
+          RowBox[{
+           FractionBox[
+            RowBox[{"2", " "}], 
+            SuperscriptBox["x21", "2"]], 
+           RowBox[{"x10", ".", "x21"}]}], " ", "+", " ", "3"}], ")"}]}], " ", 
+       "-", " ", 
+       FractionBox[
+        RowBox[{"2", " ", "x21i", " ", "x20l", " ", 
+         RowBox[{"Cross", "[", 
+          RowBox[{"x21", ",", " ", "x10"}], "]"}]}], 
+        SuperscriptBox["x21", "4"]]}], "//", "Expand"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTerm", "[", "term36", "]"}], ";"}]}]}]], "Input",
+ CellLabel->
+  "In[2675]:=",ExpressionUUID->"90c27ce7-02a1-4d63-b8ac-37d7019ebdba"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The original terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    Thickness->Large,
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{
+    RowBox[{"-", 
+     FractionBox[
+      RowBox[{"eik", " ", "x20k", " ", "x20l"}], 
+      SuperscriptBox["x20", "2"]]}], "+", 
+    FractionBox[
+     RowBox[{"eik", " ", "x20k", " ", "x20l"}], 
+     SuperscriptBox["x21", "2"]], "-", 
+    FractionBox[
+     RowBox[{"2", " ", "x20l", " ", "x21i", " ", 
+      RowBox[{"x21", "\[Cross]", "x10"}]}], 
+     SuperscriptBox["x21", "4"]], "+", 
+    FractionBox[
+     RowBox[{"6", " ", "x20l", " ", "x21i", " ", 
+      RowBox[{"x21", "\[Cross]", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]], "+", 
+    FractionBox[
+     RowBox[{"4", " ", "x20l", " ", "x21i", " ", 
+      RowBox[{"x21", "\[Cross]", "x10"}], " ", 
+      RowBox[{"x10", ".", "x21"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "4"]}]], "+", 
+    FractionBox[
+     RowBox[{"2", " ", "eik", " ", "x20k", " ", "x20l", " ", 
+      RowBox[{"x20", ".", "x10"}]}], 
+     RowBox[{
+      SuperscriptBox["x20", "2"], " ", 
+      SuperscriptBox["x21", "2"]}]]}]}],
+  SequenceForm[
+   Style["The original terms are: ", 15, 
+    Thickness[Large], 
+    GrayLevel[0], 
+    "Title"], -$CellContext`eik $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x20l + $CellContext`eik $CellContext`x20k $CellContext`x20l \
+$CellContext`x21^(-2) - 
+   2 $CellContext`x20l $CellContext`x21^(-4) $CellContext`x21i 
+   Cross[$CellContext`x21, $CellContext`x10] + 
+   6 $CellContext`x20^(-2) $CellContext`x20l $CellContext`x21^(-2) \
+$CellContext`x21i Cross[$CellContext`x21, $CellContext`x10] + 
+   4 $CellContext`x20^(-2) $CellContext`x20l $CellContext`x21^(-4) \
+$CellContext`x21i Cross[$CellContext`x21, $CellContext`x10] 
+    Dot[$CellContext`x10, $CellContext`x21] + 
+   2 $CellContext`eik $CellContext`x20^(-2) $CellContext`x20k \
+$CellContext`x20l $CellContext`x21^(-2) 
+    Dot[$CellContext`x20, $CellContext`x10]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2675]:=",ExpressionUUID->"54498362-2b21-40f0-a51e-bc5a9e0a6597"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The log divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"eik", " ", 
+       SuperscriptBox["x10", "2"], " ", "x21k", " ", "x21l"}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "x10l", " ", "x21i", " ", 
+        RowBox[{"x10", "\[Cross]", "x21"}]}], 
+       SuperscriptBox["x21", "4"]]}], ",", 
+     FractionBox[
+      RowBox[{"4", " ", "eik", " ", "x10l", " ", "x21k", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     FractionBox[
+      RowBox[{"4", " ", "eik", " ", "x10k", " ", "x21l", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "4"]], ",", 
+     FractionBox[
+      RowBox[{"8", " ", "x21i", " ", "x21l", " ", 
+       RowBox[{"x10", "\[Cross]", "x21"}], " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "6"]], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "eik", " ", "x21k", " ", "x21l", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+       SuperscriptBox["x21", "6"]]}]}], "}"}]}],
+  SequenceForm[
+   Style["The log divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {$CellContext`eik $CellContext`x10^2 $CellContext`x21^(-4) \
+$CellContext`x21k $CellContext`x21l, (-4) $CellContext`x10l \
+$CellContext`x21^(-4) $CellContext`x21i 
+    Cross[$CellContext`x10, $CellContext`x21], 
+    4 $CellContext`eik $CellContext`x10l $CellContext`x21^(-4) \
+$CellContext`x21k Dot[$CellContext`x21, $CellContext`x10], 
+    4 $CellContext`eik $CellContext`x10k $CellContext`x21^(-4) \
+$CellContext`x21l Dot[$CellContext`x21, $CellContext`x10], 
+    8 $CellContext`x21^(-6) $CellContext`x21i $CellContext`x21l 
+    Cross[$CellContext`x10, $CellContext`x21] 
+    Dot[$CellContext`x21, $CellContext`x10], (-4) $CellContext`eik \
+$CellContext`x21^(-6) $CellContext`x21k $CellContext`x21l 
+    Dot[$CellContext`x21, $CellContext`x10]^2}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2675]:=",ExpressionUUID->"ab3b7128-e83c-4b1b-8f89-70af46f00a6d"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"The power divergent terms are: \"\>", "Title",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"4", " ", "x21i", " ", "x21l", " ", 
+        RowBox[{"x10", "\[Cross]", "x21"}]}], 
+       SuperscriptBox["x21", "4"]]}], ",", 
+     FractionBox[
+      RowBox[{"4", " ", "eik", " ", "x21k", " ", "x21l", " ", 
+       RowBox[{"x21", ".", "x10"}]}], 
+      SuperscriptBox["x21", "4"]]}], "}"}]}],
+  SequenceForm[
+   Style["The power divergent terms are: ", 15, 
+    GrayLevel[0], 
+    "Title"], {(-4) $CellContext`x21^(-4) $CellContext`x21i $CellContext`x21l 
+    Cross[$CellContext`x10, $CellContext`x21], 
+    4 $CellContext`eik $CellContext`x21^(-4) $CellContext`x21k \
+$CellContext`x21l Dot[$CellContext`x21, $CellContext`x10]}],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[2675]:=",ExpressionUUID->"c4cf3356-f137-44db-ae28-2e7449fd469d"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{768, 759},
+WindowMargins->{{47, Automatic}, {Automatic, 29}},
+FrontEndVersion->"12.3 for Mac OS X x86 (64-bit) (May 11, 2021)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"647d76a2-8ce1-45e4-a2e4-d4963d1f161b"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 249, 5, 107, "Chapter",ExpressionUUID->"4fa21fd1-472e-495b-a984-4c2dc2fe2b59"],
+Cell[832, 29, 11629, 280, 1244, "Input",ExpressionUUID->"11a9a60b-1070-42ef-a69b-2fb80e9afbab"],
+Cell[12464, 311, 81, 0, 30, "Input",ExpressionUUID->"5ee7d75c-1203-4589-9df7-5296df88501c"],
+Cell[CellGroupData[{
+Cell[12570, 315, 186, 4, 62, "Section",ExpressionUUID->"0704e78c-0cd8-42a7-991a-9ef10b49f8cc"],
+Cell[CellGroupData[{
+Cell[12781, 323, 495, 14, 75, "Input",ExpressionUUID->"5f37fd93-5c52-46c2-a2f8-e817d063573f"],
+Cell[CellGroupData[{
+Cell[13301, 341, 1009, 31, 45, "Print",ExpressionUUID->"d75be564-dbc1-4dd7-9854-da4736519272"],
+Cell[14313, 374, 588, 18, 26, "Print",ExpressionUUID->"15ab5175-e660-439c-8f02-94d22c513d99"],
+Cell[14904, 394, 592, 18, 26, "Print",ExpressionUUID->"b106e333-a244-4b70-b1e6-11f8a8573be3"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15545, 418, 1155, 33, 108, "Subsection",ExpressionUUID->"795d1f31-af1d-489a-8e65-dac33d6ab1bb"],
+Cell[CellGroupData[{
+Cell[16725, 455, 810, 24, 77, "Input",ExpressionUUID->"b55bbbe7-ee95-497f-b88c-30a267a8ccb1"],
+Cell[CellGroupData[{
+Cell[17560, 483, 1352, 40, 46, "Print",ExpressionUUID->"61666b35-459f-4734-a5e8-2543fed8058e"],
+Cell[18915, 525, 1309, 38, 44, "Print",ExpressionUUID->"3f241273-fb21-4681-adf1-c8fcc2a15fc1"],
+Cell[20227, 565, 592, 18, 26, "Print",ExpressionUUID->"ab5c84a2-1be3-48fb-b5b4-107c58017a80"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20880, 590, 825, 24, 94, "Subsection",ExpressionUUID->"31fe394f-a376-4f54-8365-e68e49cdf26b"],
+Cell[CellGroupData[{
+Cell[21730, 618, 2460, 76, 291, "Input",ExpressionUUID->"7eec1fb2-ee82-4982-a059-60e827e8a08f"],
+Cell[CellGroupData[{
+Cell[24215, 698, 2367, 69, 85, "Print",ExpressionUUID->"67b759e6-c112-4552-a0ba-8007408d164d"],
+Cell[26585, 769, 1114, 33, 44, "Print",ExpressionUUID->"37e114ac-bc19-4a69-b0f5-a4eeed04cef3"],
+Cell[27702, 804, 592, 18, 26, "Print",ExpressionUUID->"d5571de2-0a87-4176-b97a-36d37a5f99a7"],
+Cell[28297, 824, 2367, 69, 85, "Print",ExpressionUUID->"fad57356-0950-4a2e-8777-a68a06c44809"],
+Cell[30667, 895, 1114, 33, 44, "Print",ExpressionUUID->"bf5a75af-71a0-49d6-8138-36a41bb45b87"],
+Cell[31784, 930, 592, 18, 26, "Print",ExpressionUUID->"8ebc59c9-ca53-4ffb-9cd0-b38c0c55ced3"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[32415, 953, 550, 16, 94, "Subsection",ExpressionUUID->"17f05aad-0272-45f0-8252-453454879f2d"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[33002, 974, 420, 14, 68, "Section",ExpressionUUID->"692d2170-8bab-405d-972b-e48ea092fa76"],
+Cell[CellGroupData[{
+Cell[33447, 992, 1080, 31, 136, "Input",ExpressionUUID->"72da921a-99eb-4fe8-a897-71d66d2a5870"],
+Cell[CellGroupData[{
+Cell[34552, 1027, 1561, 43, 42, "Print",ExpressionUUID->"133472e1-c455-4f44-ac80-d3ba70675f01"],
+Cell[36116, 1072, 963, 29, 42, "Print",ExpressionUUID->"b020981c-ac5a-4786-b56e-e42f2af2155c"],
+Cell[37082, 1103, 592, 18, 26, "Print",ExpressionUUID->"56e9c63b-c3cc-44a8-bafa-12035760e71d"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[37723, 1127, 1099, 32, 157, "Input",ExpressionUUID->"9647d8ec-afa3-4f64-bb90-88812355add1"],
+Cell[CellGroupData[{
+Cell[38847, 1163, 1729, 48, 42, "Print",ExpressionUUID->"b3cfc586-4724-4190-8223-8cbb91c47148"],
+Cell[40579, 1213, 832, 24, 42, "Print",ExpressionUUID->"5945d6ff-70c3-4d0a-a99c-c4fec19ab1fe"],
+Cell[41414, 1239, 592, 18, 26, "Print",ExpressionUUID->"3f71109a-0e22-40aa-b9f6-6d0a5325671f"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[42055, 1263, 1033, 30, 118, "Input",ExpressionUUID->"c3c76742-2967-449d-9141-62f955c69b33"],
+Cell[CellGroupData[{
+Cell[43113, 1297, 1504, 44, 44, "Print",ExpressionUUID->"7717d94c-5ac3-42c6-a525-e4f785ea5e3e"],
+Cell[44620, 1343, 805, 24, 42, "Print",ExpressionUUID->"a70f074d-4eed-4601-af94-b003c66c459b"],
+Cell[45428, 1369, 745, 22, 42, "Print",ExpressionUUID->"7a1f6353-fe9d-4bd8-9576-7ed748e951b9"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[46222, 1397, 1070, 31, 94, "Input",ExpressionUUID->"2468f33e-9a7d-410e-aa45-0443b09c9345"],
+Cell[CellGroupData[{
+Cell[47317, 1432, 1425, 40, 42, "Print",ExpressionUUID->"62d16342-7c04-47cd-bd1c-7751c01a5622"],
+Cell[48745, 1474, 687, 20, 42, "Print",ExpressionUUID->"5cafe183-5ade-490d-976d-cd5b750e111d"],
+Cell[49435, 1496, 592, 18, 26, "Print",ExpressionUUID->"0cfa4cc4-9100-47b7-a41d-8ed175bdd831"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[50076, 1520, 1264, 36, 134, "Input",ExpressionUUID->"52391c37-a691-4383-b8d9-7e717591c815"],
+Cell[CellGroupData[{
+Cell[51365, 1560, 1618, 44, 42, "Print",ExpressionUUID->"e9574ce3-0d4d-44de-bb8c-0dad29530209"],
+Cell[52986, 1606, 832, 24, 42, "Print",ExpressionUUID->"f7bec212-407b-433a-a2af-fd6ee94d2485"],
+Cell[53821, 1632, 592, 18, 26, "Print",ExpressionUUID->"1b89c9be-0f0e-4113-9b98-07bea8a83a37"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[54462, 1656, 1066, 31, 118, "Input",ExpressionUUID->"8ec58cd5-da91-489f-9bc6-4a80d1160346"],
+Cell[CellGroupData[{
+Cell[55553, 1691, 1568, 46, 44, "Print",ExpressionUUID->"0d897ab8-308f-4fc4-b82b-156339c73a7e"],
+Cell[57124, 1739, 805, 24, 42, "Print",ExpressionUUID->"67125d0b-4211-4f05-b565-5bc3a282dc41"],
+Cell[57932, 1765, 592, 18, 26, "Print",ExpressionUUID->"7a927dc4-d4d1-45a4-a268-ff5a3785f672"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[58585, 1790, 694, 23, 68, "Section",ExpressionUUID->"08c03f9e-18a1-4ac5-bca9-f201ac49abf7"],
+Cell[CellGroupData[{
+Cell[59304, 1817, 1161, 32, 176, "Input",ExpressionUUID->"d0d2b8a1-d91e-4064-8fcf-bd5b19159c9f"],
+Cell[CellGroupData[{
+Cell[60490, 1853, 2116, 57, 80, "Print",ExpressionUUID->"0bdf51ef-ffe1-45ca-9e60-ab453754ca6a"],
+Cell[62609, 1912, 2338, 58, 83, "Print",ExpressionUUID->"6bf9347c-2a41-4c5a-890c-e95a572250e8"],
+Cell[64950, 1972, 1406, 37, 42, "Print",ExpressionUUID->"04c70c9b-510c-4ed5-9a4b-b287f660d3f9"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[66405, 2015, 1671, 45, 157, "Input",ExpressionUUID->"eb555523-c994-40d3-a465-380b35e1c5a0"],
+Cell[CellGroupData[{
+Cell[68101, 2064, 2550, 67, 83, "Print",ExpressionUUID->"131b02a0-40fe-4cb0-9d67-7cfc25c79a5a"],
+Cell[70654, 2133, 2553, 67, 106, "Print",ExpressionUUID->"66564ffd-409c-4536-b9e7-933b3fcb1039"],
+Cell[73210, 2202, 1257, 35, 42, "Print",ExpressionUUID->"abd89a07-f2bf-43ac-b7fd-cdd03d99aac0"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[74516, 2243, 1653, 46, 186, "Input",ExpressionUUID->"9ad52ab1-d908-4fab-83f4-d016f79a4342"],
+Cell[CellGroupData[{
+Cell[76194, 2293, 2077, 56, 80, "Print",ExpressionUUID->"eb16b9a7-a44e-4eed-ba73-0bf0566154ec"],
+Cell[78274, 2351, 1955, 51, 85, "Print",ExpressionUUID->"580adc28-8c55-4fdf-9fe5-deeb401c8fd7"],
+Cell[80232, 2404, 1543, 41, 63, "Print",ExpressionUUID->"53e5ad71-dc1a-481e-a672-3c4d45cda1e1"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[81824, 2451, 1905, 50, 202, "Input",ExpressionUUID->"8b4d38e4-3190-42ee-bee1-8989166f7465"],
+Cell[CellGroupData[{
+Cell[83754, 2505, 2801, 69, 101, "Print",ExpressionUUID->"c5b2b52f-5d85-433f-8a32-4cf531f616a0"],
+Cell[86558, 2576, 1553, 41, 65, "Print",ExpressionUUID->"1ab4d7a0-bda9-4a00-8fa4-1383f4368767"],
+Cell[88114, 2619, 785, 23, 42, "Print",ExpressionUUID->"2198e4e2-c78f-4bbb-9f5c-4db7000b6410"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[88948, 2648, 1893, 48, 220, "Input",ExpressionUUID->"6e4b65b0-d589-44ca-918b-93e69aa10092"],
+Cell[90844, 2698, 1338, 36, 139, "Output",ExpressionUUID->"018177f6-9613-408e-89ac-dc80f839425f"],
+Cell[CellGroupData[{
+Cell[92207, 2738, 3011, 78, 118, "Print",ExpressionUUID->"e769448e-19d5-46b9-8c46-032e97475730"],
+Cell[95221, 2818, 1445, 39, 44, "Print",ExpressionUUID->"a4a1b1a3-643e-43dc-8825-0b5c31804641"],
+Cell[96669, 2859, 785, 23, 42, "Print",ExpressionUUID->"6294f854-15ac-444e-8b9e-0a7ca529b4fb"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[97503, 2888, 1442, 40, 177, "Input",ExpressionUUID->"2057ed2b-c792-49ce-ad7e-c1ab38c397e8"],
+Cell[CellGroupData[{
+Cell[98970, 2932, 2396, 62, 80, "Print",ExpressionUUID->"8e650f7d-e84d-4bfd-8820-60dd47127f1b"],
+Cell[101369, 2996, 1851, 48, 85, "Print",ExpressionUUID->"bd31af85-dc5a-43b7-b576-eaef9d1149a5"],
+Cell[103223, 3046, 1183, 32, 42, "Print",ExpressionUUID->"ed924c41-f88f-495e-a7db-14d38d7ed782"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[104455, 3084, 1521, 42, 157, "Input",ExpressionUUID->"90c27ce7-02a1-4d63-b8ac-37d7019ebdba"],
+Cell[CellGroupData[{
+Cell[106001, 3130, 2400, 63, 80, "Print",ExpressionUUID->"54498362-2b21-40f0-a51e-bc5a9e0a6597"],
+Cell[108404, 3195, 2448, 61, 85, "Print",ExpressionUUID->"ab3b7128-e83c-4b1b-8f89-70af46f00a6d"],
+Cell[110855, 3258, 1183, 32, 42, "Print",ExpressionUUID->"c4cf3356-f137-44db-ae28-2e7449fd469d"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
