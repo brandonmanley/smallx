@@ -1,0 +1,1956 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     75154,       1948]
+NotebookOptionsPosition[     71458,       1876]
+NotebookOutlinePosition[     71849,       1892]
+CellTagsIndexPosition[     71806,       1889]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Count", " ", "the", " ", "number", " ", "of", " ", "powers", " ", "of", 
+    " ", 
+    SubscriptBox["x", "21"], " ", "in", " ", "an", " ", "expression"}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"PowerCountRev", "[", "exp_", "]"}], " ", ":=", " ", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"power", "=", " ", "0"}], "}"}], ",", "\[IndentingNewLine]", 
+      "\t", 
+      RowBox[{
+       RowBox[{"forms", " ", "=", " ", 
+        RowBox[{"{", 
+         RowBox[{"x21", ",", " ", 
+          RowBox[{"x21", ".", "x10"}], ",", " ", 
+          RowBox[{"x21", "\[Cross]", "x10"}], ",", " ", 
+          RowBox[{"x10", ".", "x21"}], ",", " ", 
+          RowBox[{"x10", " ", "\[Cross]", " ", "x21"}]}], "}"}]}], ";", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"Clear", "[", 
+        RowBox[{"i", ",", "j", ",", "k", ",", "l", ",", " ", "m"}], "]"}], 
+       ";", "\[IndentingNewLine]", "\t", 
+       RowBox[{"indices", " ", "=", " ", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "j", ",", "k", ",", "l", ",", "m"}], "}"}]}], ";", 
+       " ", "\[IndentingNewLine]", "\t", 
+       RowBox[{"syms", " ", "=", " ", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"Symbol", "[", 
+           RowBox[{"\"\<x21\>\"", "<>", 
+            RowBox[{"ToString", "@", "i"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "indices"}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "\t", 
+       RowBox[{"forms", " ", "=", " ", 
+        RowBox[{"Join", "[", 
+         RowBox[{"forms", ",", " ", "syms"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "\t", "\[IndentingNewLine]", "\t", 
+       RowBox[{"num", " ", "=", " ", 
+        RowBox[{"Numerator", "[", "exp", "]"}]}], ";", "\[IndentingNewLine]", 
+       "\t", 
+       RowBox[{"denom", " ", "=", " ", 
+        RowBox[{"Denominator", "[", "exp", "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"i", "=", "1"}], ",", " ", 
+         RowBox[{"i", "<=", " ", 
+          RowBox[{"Length", "[", "forms", "]"}]}], ",", " ", 
+         RowBox[{"i", "+=", "1"}], ",", " ", "\[IndentingNewLine]", "\t", 
+         RowBox[{"(*", " ", "numerator", " ", "*)"}], "\[IndentingNewLine]", 
+         "\t", 
+         RowBox[{
+          RowBox[{"npow", " ", "=", " ", "0"}], ";", "\[IndentingNewLine]", 
+          "\t", 
+          RowBox[{"c", "=", " ", 
+           RowBox[{"Cases", "[", 
+            RowBox[{"num", ",", 
+             RowBox[{
+              SuperscriptBox[
+               RowBox[{"forms", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], "p_"], ":>", "p"}], ",", 
+             "All"}], "]"}]}], ";", "\[IndentingNewLine]", "\t", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Length", "[", "c", "]"}], ">", "1"}], ",", " ", 
+            RowBox[{
+             RowBox[{"Print", "[", "\"\<cases went arwy\>\"", "]"}], ";", " ", 
+             RowBox[{"Print", "[", "c", "]"}], ";"}]}], "]"}], ";", 
+          "\[IndentingNewLine]", "\t", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Length", "[", "c", "]"}], " ", "<", " ", "1"}], ",", 
+            " ", 
+            RowBox[{"npow", " ", "=", " ", 
+             RowBox[{"Count", "[", 
+              RowBox[{"num", ",", " ", 
+               RowBox[{"forms", "[", 
+                RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}], ",", " ", 
+            RowBox[{"npow", " ", "=", " ", 
+             RowBox[{"c", "[", 
+              RowBox[{"[", "1", "]"}], "]"}]}]}], "]"}], ";", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\t", 
+          RowBox[{"(*", " ", "denominator", " ", "*)"}], 
+          "\[IndentingNewLine]", "\t", 
+          RowBox[{"dpow", " ", "=", " ", "0"}], ";", "\[IndentingNewLine]", 
+          "\t", 
+          RowBox[{"c", "=", " ", 
+           RowBox[{"Cases", "[", 
+            RowBox[{"denom", ",", 
+             RowBox[{
+              SuperscriptBox[
+               RowBox[{"forms", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], "p_"], ":>", "p"}], ",", 
+             "All"}], "]"}]}], ";", "\[IndentingNewLine]", "\t", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Length", "[", "c", "]"}], ">", "1"}], ",", 
+            "\[IndentingNewLine]", "\t ", 
+            RowBox[{
+             RowBox[{"Print", "[", "\"\<cases went arwy\>\"", "]"}], ";", 
+             "\[IndentingNewLine]", "\t", 
+             RowBox[{"Print", "[", "c", "]"}], ";"}]}], "]"}], ";", 
+          "\[IndentingNewLine]", "\t", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Length", "[", "c", "]"}], " ", "<", " ", "1"}], ",", 
+            " ", 
+            RowBox[{"dpow", " ", "=", " ", 
+             RowBox[{"Count", "[", 
+              RowBox[{"denom", ",", " ", 
+               RowBox[{"forms", "[", 
+                RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}], ",", " ", 
+            RowBox[{"dpow", " ", "=", " ", 
+             RowBox[{"c", "[", 
+              RowBox[{"[", "1", "]"}], "]"}]}]}], "]"}], ";", 
+          "\[IndentingNewLine]", "\t", "\[IndentingNewLine]", "\t", 
+          RowBox[{"power", " ", "+=", " ", 
+           RowBox[{"(", 
+            RowBox[{"npow", " ", "-", " ", "dpow"}], ")"}]}], ";"}]}], 
+        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"Print", "[", 
+          RowBox[{"exp", ",", " ", "\"\< : \>\"", " ", ",", " ", "power"}], 
+          "]"}], ";"}], "*)"}], "\[IndentingNewLine]", " ", "power"}]}], 
+     "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"CountSum", "[", "p_", "]"}], ":=", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Head", "[", "p", "]"}], "===", "Plus"}], ",", 
+      RowBox[{"Length", "[", "p", "]"}], ",", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"p", "===", "0"}], ",", "0", ",", "1"}], "]"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplifyTermRev", "[", "exp_", "]"}], " ", ":=", " ", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", " ", 
+       RowBox[{
+        RowBox[{"termList", " ", "=", " ", 
+         RowBox[{"{", "}"}]}], ",", " ", 
+        RowBox[{"logDivTerms", "=", " ", 
+         RowBox[{"{", "}"}]}], ",", " ", 
+        RowBox[{"powDivTerms", " ", "=", " ", 
+         RowBox[{"{", "}"}]}], ",", " ", 
+        RowBox[{"oneTerm", "=", "False"}]}], "}"}], ",", " ", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"Replace", " ", "x20"}], ",", " ", 
+        RowBox[{
+        "expand", " ", "denominator", " ", "in", " ", "powers", " ", "of", 
+         " ", "x21"}], ",", " ", 
+        RowBox[{
+        "and", " ", "keep", " ", "only", " ", "divergent", " ", "terms"}]}], 
+       " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"vecRules", " ", "=", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Cross", "[", 
+            RowBox[{"x21", ",", " ", "x21"}], "]"}], "->", "0"}], ",", " ", 
+          RowBox[{
+           RowBox[{"Cross", "[", 
+            RowBox[{"x10", ",", " ", "x10"}], "]"}], "->", "0"}], ",", 
+          "\[IndentingNewLine]", "\t\t", 
+          RowBox[{
+           RowBox[{"x10", ".", "x21"}], "->", " ", 
+           RowBox[{"x21", ".", "x10"}]}], ",", " ", 
+          RowBox[{
+           RowBox[{"x21", ".", "x21"}], "->", 
+           SuperscriptBox["x21", "2"]}], ",", " ", 
+          RowBox[{
+           RowBox[{"x10", ".", "x10"}], " ", "->", " ", 
+           SuperscriptBox["x10", "2"]}]}], "}"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"denomReplaceX20", " ", "=", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           SuperscriptBox["x20", "2"], "->", 
+           FractionBox[
+            RowBox[{" ", "1"}], 
+            RowBox[{
+             FractionBox["1", 
+              SuperscriptBox["x21", "2"]], "-", " ", 
+             FractionBox[
+              RowBox[{"2", " ", 
+               RowBox[{"x21", ".", "x10"}]}], 
+              SuperscriptBox["x21", "4"]], "-", " ", 
+             FractionBox[
+              SuperscriptBox["x10", "2"], 
+              SuperscriptBox["x21", "4"]]}]]}], " ", ",", 
+          "\[IndentingNewLine]", "\t\t\t    ", 
+          RowBox[{
+           SuperscriptBox["x20", "4"], "->", 
+           FractionBox["1", 
+            RowBox[{
+             FractionBox["1", 
+              SuperscriptBox["x21", 
+               RowBox[{"4", " "}]]], "-", " ", 
+             FractionBox[
+              RowBox[{"4", " ", 
+               RowBox[{"x21", ".", "x10"}]}], 
+              SuperscriptBox["x21", "6"]], "-", " ", 
+             FractionBox[
+              RowBox[{"2", " ", 
+               SuperscriptBox["x10", "2"]}], 
+              SuperscriptBox["x21", "6"]], "+", " ", 
+             FractionBox[
+              RowBox[{"4", " ", 
+               SuperscriptBox[
+                RowBox[{"(", 
+                 RowBox[{"x21", ".", "x10"}], ")"}], "2"]}], 
+              SuperscriptBox["x21", "8"]], "+", " ", 
+             FractionBox[
+              SuperscriptBox["x10", "4"], 
+              SuperscriptBox["x21", "8"]]}]]}]}], " ", "}"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"numReplaceX20", " ", "=", " ", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           SuperscriptBox["x20", "2"], "->", " ", 
+           SuperscriptBox["x21", "2"]}], ",", "\[IndentingNewLine]", 
+          "                            ", 
+          RowBox[{"x20", "->", 
+           RowBox[{"x21", "+", " ", "x10"}]}], ",", " ", 
+          "\[IndentingNewLine]", "\t\t\t", 
+          RowBox[{"x20l", "->", 
+           RowBox[{"x21l", "+", " ", "x10l"}]}], ",", "\[IndentingNewLine]", 
+          "\t\t\t", 
+          RowBox[{"x20k", " ", "->", " ", 
+           RowBox[{"x10k", " ", "+", " ", "x21k"}]}], ",", " ", 
+          "\[IndentingNewLine]", "\t\t\t", 
+          RowBox[{"x20i", " ", "->", " ", 
+           RowBox[{"x21i", " ", "+", " ", "x10i"}]}], ",", 
+          "\[IndentingNewLine]", "\t\t\t", 
+          RowBox[{"x20m", " ", "->", " ", 
+           RowBox[{"x21m", " ", "+", " ", "x10m"}]}], ",", 
+          "\[IndentingNewLine]", "\t\t\t", 
+          RowBox[{"x20j", " ", "->", " ", 
+           RowBox[{"x21j", " ", "+", " ", "x10j"}]}]}], "}"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"nTerms", " ", "=", " ", 
+        RowBox[{"CountSum", "[", 
+         RowBox[{"exp", "//", "TensorExpand"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"nTerms", " ", ">", " ", "1"}], ",", " ", 
+         RowBox[{"oneTerm", " ", "=", " ", "False"}], ",", " ", 
+         RowBox[{"oneTerm", "=", " ", "True"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{"apply", " ", "the", " ", "rules", " ", "above"}], ",", " ", 
+         
+         RowBox[{
+         "while", " ", "turning", " ", "the", " ", "expression", " ", "into", 
+          " ", "a", " ", "list"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"simpTerms", " ", "=", " ", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"exp", "//", "TensorExpand"}], ")"}], " ", "/.", " ", 
+           "vecRules"}], " ", ")"}], "//", "TensorExpand"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"Print", "[", "simpTerms", "]"}], ";"}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{"oneTerm", ",", " ", 
+         RowBox[{"termList", "=", " ", 
+          RowBox[{"{", "exp", "}"}]}], ",", " ", 
+         RowBox[{"termList", " ", "=", " ", 
+          RowBox[{"simpTerms", " ", "/.", " ", 
+           RowBox[{"Plus", "->", "List"}]}]}]}], " ", "]"}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"upTermList", " ", "=", " ", 
+        RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{"apply", " ", "x20", " ", "rules"}], " ", "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"t", " ", "=", " ", "1"}], ",", " ", 
+         RowBox[{"t", "<=", " ", 
+          RowBox[{"Length", "[", "termList", "]"}]}], ",", " ", 
+         RowBox[{"t", "+=", "1"}], ",", " ", "\[IndentingNewLine]", "\t", 
+         RowBox[{
+          RowBox[{"tnum", " ", "=", " ", 
+           RowBox[{"Numerator", "[", 
+            RowBox[{"termList", "[", 
+             RowBox[{"[", "t", "]"}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", "\t", 
+          RowBox[{"tdenom", " ", "=", " ", 
+           RowBox[{"Denominator", "[", 
+            RowBox[{"termList", "[", 
+             RowBox[{"[", "t", "]"}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", "\t", "\[IndentingNewLine]", "\t", 
+          RowBox[{"tnum", " ", "=", " ", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"tnum", " ", "/.", "numReplaceX20"}], ")"}], "//", 
+            "TensorExpand"}]}], ";", "\[IndentingNewLine]", "\t", 
+          RowBox[{"tdenom", " ", "=", " ", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"tdenom", " ", "/.", "denomReplaceX20"}], ")"}], "//", 
+            "TensorExpand"}]}], ";", "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", "\t", 
+          RowBox[{"tnum", " ", "=", " ", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"tnum", "/.", "vecRules"}], ")"}], "//", 
+            "TensorExpand"}]}], ";", "\[IndentingNewLine]", "\t", 
+          RowBox[{"tdenom", " ", "=", " ", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"tdenom", "/.", "vecRules"}], ")"}], "//", 
+            "TensorExpand"}]}], ";", "\[IndentingNewLine]", "\t", 
+          RowBox[{"newTerms", " ", "=", " ", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"tnum", "/", "tdenom"}], ")"}], "//", "TensorExpand"}]}],
+           ";", "\[IndentingNewLine]", "\[IndentingNewLine]", "\t", 
+          RowBox[{"subTermList", " ", "=", " ", 
+           RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", "\t", 
+          RowBox[{"nSubTerms", " ", "=", " ", 
+           RowBox[{"CountSum", "[", 
+            RowBox[{"newTerms", "//", "TensorExpand"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", "\t", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"nSubTerms", " ", ">", " ", "1"}], ",", " ", 
+            "\[IndentingNewLine]", "\t\t", 
+            RowBox[{"subTermList", " ", "=", " ", 
+             RowBox[{"Join", "[", 
+              RowBox[{"subTermList", ",", " ", 
+               RowBox[{"newTerms", " ", "/.", " ", 
+                RowBox[{"Plus", "->", "List"}]}]}], "]"}]}], ",", 
+            "\[IndentingNewLine]", "\t\t", 
+            RowBox[{
+             RowBox[{"AppendTo", "[", 
+              RowBox[{"subTermList", ",", " ", "newTerms"}], "]"}], ";"}]}], 
+           "\[IndentingNewLine]", "\t", "]"}], ";", "\[IndentingNewLine]", 
+          "\t", 
+          RowBox[{"upTermList", "=", " ", 
+           RowBox[{"Join", "[", 
+            RowBox[{"upTermList", ",", " ", "subTermList"}], "]"}]}], ";"}]}],
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "power", " ", "count", " ", "each", " ", "term", " ", "and", " ", 
+         "only", " ", "keep", " ", "IR", " ", "divergent", " ", "ones"}], " ",
+         "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"it", " ", "=", " ", "1"}], ",", " ", 
+         RowBox[{"it", "<=", " ", 
+          RowBox[{"Length", "[", "upTermList", "]"}]}], ",", " ", 
+         RowBox[{"it", "+=", "1"}], ",", "\[IndentingNewLine]", "\t", 
+         RowBox[{
+          RowBox[{"pow", " ", "=", "  ", 
+           RowBox[{"PowerCountRev", "[", 
+            RowBox[{"upTermList", "[", 
+             RowBox[{"[", "it", "]"}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", "\t", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"pow", " ", "<", " ", 
+             RowBox[{"-", "2.5"}]}], ",", " ", "Continue", ",", " ", 
+            "\[IndentingNewLine]", "\t\t", 
+            RowBox[{
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"pow", " ", ">", " ", 
+                RowBox[{"-", "1.9"}]}], ",", " ", 
+               RowBox[{"AppendTo", "[", 
+                RowBox[{"powDivTerms", ",", 
+                 RowBox[{"upTermList", "[", 
+                  RowBox[{"[", "it", "]"}], "]"}]}], "]"}]}], "]"}], ";", " ",
+              "\[IndentingNewLine]", "\t\t", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"pow", " ", "<", " ", 
+                RowBox[{"-", "1.9"}]}], ",", " ", 
+               RowBox[{"AppendTo", "[", 
+                RowBox[{"logDivTerms", ",", " ", 
+                 RowBox[{"upTermList", "[", 
+                  RowBox[{"[", "it", "]"}], "]"}]}], "]"}]}], "]"}], ";"}]}], 
+           " ", "\[IndentingNewLine]", "\t", "]"}], ";"}]}], 
+        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{
+         RowBox[{"Style", "[", " ", 
+          RowBox[{
+          "\"\<IR divergent terms:  \>\"", ",", " ", "15", ",", " ", "Black", 
+           ",", 
+           RowBox[{"FontFamily", "\[Rule]", "\"\<Times\>\""}]}], "]"}], ",", 
+         RowBox[{"TraditionalForm", "[", 
+          RowBox[{
+           RowBox[{"Total", "[", "logDivTerms", "]"}], "/.", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"x21", "->", " ", 
+              SubscriptBox["x", "21"]}], ",", " ", 
+             RowBox[{"x10", " ", "->", " ", 
+              SubscriptBox["x", "10"]}]}], " ", "}"}]}], "]"}]}], " ", 
+        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"Print", "[", 
+          RowBox[{
+           RowBox[{"Style", "[", " ", 
+            RowBox[{
+            "\"\<powerdiv terms: \>\"", ",", " ", "15", ",", " ", "Black", 
+             ",", " ", "\"\<Title\>\""}], "]"}], ",", 
+           RowBox[{"Total", "[", "powDivTerms", "]"}]}], "]"}], ";"}], "*)"}],
+        "\[IndentingNewLine]", 
+       RowBox[{"Total", "[", "logDivTerms", "]"}]}]}], "]"}]}]}]}]], "Input",E\
+xpressionUUID->"e064fcb9-2b57-4538-a1e1-6998acbc4153"],
+
+Cell[BoxData[""], "Input",ExpressionUUID->"e71f1d6f-abf7-4908-b5f4-fd25c2e7c7f3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Eq", ".", " ", "118"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term118a", " ", "=", " ", 
+     RowBox[{"2", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        FractionBox["1", 
+         SuperscriptBox["x21", "2"]], "-", " ", 
+        FractionBox[
+         RowBox[{"x21", ".", "x20"}], 
+         RowBox[{
+          SuperscriptBox["x21", "2"], 
+          SuperscriptBox["x20", "2"]}]]}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{
+        SubscriptBox["G", "21"], " ", "+", " ", 
+        SubscriptBox["G", "21"]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"SimplifyTermRev", "[", "term118a", "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"term118b", " ", "=", 
+     RowBox[{
+      RowBox[{"(", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", "eij", " ", "x21j"}], 
+         SuperscriptBox["x21", "4"]], "-", " ", 
+        FractionBox[
+         RowBox[{"eij", " ", 
+          RowBox[{"(", 
+           RowBox[{"x20j", " ", "+", " ", "x21j"}], ")"}]}], 
+         RowBox[{
+          SuperscriptBox["x20", "2"], " ", 
+          SuperscriptBox["x21", "2"]}]], "-", " ", 
+        RowBox[{
+         FractionBox[
+          RowBox[{"2", " ", 
+           RowBox[{"Cross", "[", 
+            RowBox[{"x10", ",", " ", "x21"}], "]"}]}], 
+          RowBox[{
+           SuperscriptBox["x20", "2"], " ", 
+           SuperscriptBox["x21", "2"]}]], 
+         RowBox[{"(", 
+          RowBox[{
+           FractionBox["x21i", 
+            SuperscriptBox["x21", "2"]], "-", " ", 
+           FractionBox["x20i", 
+            SuperscriptBox["x20", "2"]]}], ")"}]}]}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"eik", " ", "x21k", " ", 
+         SubscriptBox["G", "2"]}], " ", "+", " ", 
+        RowBox[{"eik", " ", "x20k", " ", 
+         SubscriptBox["\[CapitalGamma]", "2"]}]}], ")"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"SimplifyTermRev", "[", "term118b", "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"term118c", "   ", "=", " ", 
+     RowBox[{
+      FractionBox[
+       SuperscriptBox["x10", "2"], 
+       RowBox[{
+        SuperscriptBox["x21", "2"], 
+        SuperscriptBox["x20", "2"]}]], "[", 
+      RowBox[{"G", " ", "-", " ", "G"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"SimplifyTermRev", "[", "term118c", "]"}]}]}]], "Input",
+ CellLabel->
+  "In[138]:=",ExpressionUUID->"b79fd14e-425a-4368-85bb-2fdf095d7a1d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox["0",
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[0]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[138]:=",ExpressionUUID->"0ff17dcb-f0f4-4b03-abcc-94580dbacc73"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox["0",
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[0]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[138]:=",ExpressionUUID->"7d389eca-acb8-458a-895d-3a7027eb3e9d"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox["0",
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[0]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[138]:=",ExpressionUUID->"f87a21f9-4073-4807-a008-4bbbfe2c0145"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Eq", ".", " ", "128"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"term128a", " ", "=", " ", 
+     RowBox[{
+      FractionBox[
+       SuperscriptBox["x10", "2"], 
+       RowBox[{
+        SuperscriptBox["x21", "2"], 
+        SuperscriptBox["x20", "2"]}]], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "eij"}], " ", "x21j", " ", 
+         SubscriptBox["G", "2"]}], "-", " ", 
+        RowBox[{"eij", " ", "x10j", " ", 
+         SubscriptBox["G", "2"]}]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   
+   RowBox[{"SimplifyTermRev", "[", "term128a", "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"term128b", " ", "=", " ", 
+     RowBox[{"2", 
+      RowBox[{"(", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"eij", " ", "x21j"}], 
+         SuperscriptBox["x21", "2"]], "-", " ", 
+        FractionBox[
+         RowBox[{"eij", " ", "x20j"}], 
+         SuperscriptBox["x20", "2"]], "+", " ", 
+        RowBox[{"2", " ", 
+         FractionBox[
+          RowBox[{"x21i", " ", 
+           RowBox[{"Cross", "[", 
+            RowBox[{"x21", ",", "x10"}], "]"}]}], 
+          RowBox[{
+           SuperscriptBox["x21", "2"], 
+           SuperscriptBox["x20", "2"]}]]}]}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{"G", " ", "+", " ", "G"}], ")"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"SimplifyTermRev", "[", "term128b", "]"}], " ", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"term128c", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"oij", " ", 
+         RowBox[{"(", 
+          RowBox[{
+           FractionBox["3", 
+            SuperscriptBox["x21", "2"]], "-", " ", 
+           FractionBox[
+            RowBox[{"2", " ", 
+             RowBox[{"x20", ".", "x21"}]}], 
+            RowBox[{
+             SuperscriptBox["x20", "2"], 
+             SuperscriptBox["x21", "2"]}]], "-", 
+           FractionBox["1", 
+            SuperscriptBox["x20", "2"]]}], ")"}]}], " ", "-", " ", 
+        RowBox[{
+         FractionBox[
+          RowBox[{"2", " ", "x21i", " ", "x20j"}], 
+          RowBox[{
+           SuperscriptBox["x21", "2"], " ", 
+           SuperscriptBox["x20", "2"]}]], 
+         RowBox[{"(", 
+          RowBox[{
+           FractionBox[
+            RowBox[{"2", " ", 
+             RowBox[{"x20", ".", "x21"}]}], 
+            SuperscriptBox["x20", "2"]], "+", "1"}], ")"}]}], " ", "+", " ", 
+        RowBox[{
+         FractionBox[
+          RowBox[{"2", " ", "x21i", " ", "x21j"}], 
+          RowBox[{
+           SuperscriptBox["x21", "2"], " ", 
+           SuperscriptBox["x20", "2"]}]], 
+         RowBox[{"(", 
+          RowBox[{
+           FractionBox[
+            RowBox[{"2", " ", 
+             RowBox[{"x20", ".", "x21"}]}], 
+            SuperscriptBox["x21", "2"]], "+", "1"}], ")"}]}], "  ", "+", " ", 
+        
+        FractionBox[
+         RowBox[{"2", " ", "x20i", " ", "x20j"}], 
+         SuperscriptBox["x20", "4"]], "-", " ", 
+        FractionBox[
+         RowBox[{"2", " ", "x21i", " ", "x21j"}], 
+         SuperscriptBox["x21", "4"]]}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"ejk", " ", "x21k", " ", 
+         SubscriptBox["G", "2"]}], "+", " ", 
+        RowBox[{"ejk", " ", "x20k", " ", 
+         SubscriptBox["G", "2"]}]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   
+   RowBox[{"SimplifyTermRev", "[", "term128c", "]"}]}]}]], "Input",
+ CellLabel->
+  "In[144]:=",ExpressionUUID->"6092440e-d679-403c-9b7b-aff40b2a8a95"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox["0",
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[0]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[144]:=",ExpressionUUID->"61344879-d228-4a54-a6d1-fd9de3b621fb"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox[
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"4", " ", "eij", " ", "G", " ", "x10j"}], 
+        SubsuperscriptBox["x", "21", "2"]]}], "+", 
+      FractionBox[
+       RowBox[{"8", " ", "eij", " ", "G", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x21j"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"8", " ", "G", " ", "x21i", " ", 
+        RowBox[{
+         SubscriptBox["x", "10"], "\[Cross]", 
+         SubscriptBox["x", "21"]}]}], 
+       SubsuperscriptBox["x", "21", "4"]]}],
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[(-8) $CellContext`G $CellContext`x21i Cross[
+       Subscript[$CellContext`x, 10], 
+       Subscript[$CellContext`x, 21]] Subscript[$CellContext`x, 21]^(-4) + 
+    8 $CellContext`eij $CellContext`G $CellContext`x21j Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) - 
+    4 $CellContext`eij $CellContext`G $CellContext`x10j 
+    Subscript[$CellContext`x, 21]^(-2)]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[144]:=",ExpressionUUID->"09b2c193-7d12-448b-92a1-c05770265cd6"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox[
+     RowBox[{
+      FractionBox[
+       RowBox[{"8", " ", "ejk", " ", 
+        SubscriptBox["G", "2"], " ", "oij", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"4", " ", "ejk", " ", 
+        SubscriptBox["G", "2"], " ", "x10i", " ", "x21j", " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"8", " ", "ejk", " ", 
+        SubscriptBox["G", "2"], " ", "x10j", " ", "x21i", " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]]}],
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[(-8) $CellContext`ejk $CellContext`x10j $CellContext`x21i \
+$CellContext`x21k Subscript[$CellContext`G, 2] 
+     Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`ejk $CellContext`x10i $CellContext`x21j $CellContext`x21k 
+     Subscript[$CellContext`G, 2] Subscript[$CellContext`x, 21]^(-4) + 
+    8 $CellContext`ejk $CellContext`oij $CellContext`x21k Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`G, 2] 
+     Subscript[$CellContext`x, 21]^(-4)]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[144]:=",ExpressionUUID->"cca52b67-d823-4933-a421-76a1b46fb3ef"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"J3", " ", "equation"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"termJ3a", " ", "=", " ", 
+     RowBox[{"2", 
+      RowBox[{"(", 
+       RowBox[{
+        FractionBox["1", 
+         SuperscriptBox["x21", "2"]], "-", " ", 
+        FractionBox[
+         RowBox[{"x21", ".", "x20"}], 
+         RowBox[{
+          SuperscriptBox["x21", "2"], 
+          SuperscriptBox["x20", "2"]}]]}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"x21i", " ", 
+         RowBox[{"(", 
+          RowBox[{"J3", " ", "-", " ", 
+           RowBox[{"2", "G"}]}], ")"}]}], " ", "+", " ", 
+        RowBox[{"x20i", " ", "J3"}]}], ")"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SimplifyTermRev", "[", "termJ3a", "]"}]}]}]], "Input",
+ CellLabel->
+  "In[150]:=",ExpressionUUID->"29328b8f-ddac-4ae2-93fb-c642b96b43cf"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox[
+     RowBox[{
+      FractionBox[
+       RowBox[{"4", " ", "J3", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x21i"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"4", " ", "G", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x21i"}], 
+       SubsuperscriptBox["x", "21", "4"]]}],
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[(-4) $CellContext`G $CellContext`x21i Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`J3 $CellContext`x21i Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4)]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[150]:=",ExpressionUUID->"747ee9c6-6e90-4f76-a619-7b721b2f783f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"termJ3c", " ", "=", " ", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"-", 
+      SuperscriptBox["x10", "2"]}], 
+     RowBox[{
+      SuperscriptBox["x21", "2"], 
+      SuperscriptBox["x20", "2"]}]], 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"x21i", " ", "J3"}], " ", "-", " ", 
+      RowBox[{"x10i", " ", "J3"}]}], ")"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"SimplifyTermRev", "[", "termJ3c", "]"}]}], "Input",
+ CellLabel->
+  "In[152]:=",ExpressionUUID->"a4de0d8c-d66f-47c6-a12d-ee550adbed9a"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox["0",
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[0]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[152]:=",ExpressionUUID->"bb6cbff8-e63c-4525-892d-870b1ef148f4"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"termJ3b", " ", "=", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       FractionBox[
+        RowBox[{"2", " ", "eij", " ", "x21j"}], 
+        SuperscriptBox["x21", "4"]], "-", " ", 
+       FractionBox[
+        RowBox[{"eij", " ", 
+         RowBox[{"(", 
+          RowBox[{"x20j", " ", "+", " ", "x21j"}], ")"}]}], 
+        RowBox[{
+         SuperscriptBox["x20", "2"], 
+         SuperscriptBox["x21", "2"]}]], "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", 
+          RowBox[{"Cross", "[", 
+           RowBox[{"x10", ",", "x21"}], "]"}]}], 
+         RowBox[{
+          SuperscriptBox["x20", "2"], 
+          SuperscriptBox["x21", "2"]}]], 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox["x21i", 
+           SuperscriptBox["x21", "2"]], "-", " ", 
+          FractionBox["x20i", 
+           SuperscriptBox["x20", "2"]]}], ")"}]}]}], ")"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"emi", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          SuperscriptBox["x21", "2"], "+", " ", 
+          SuperscriptBox["x20", "2"]}], ")"}], "I4"}], " ", "+", 
+       RowBox[{
+        RowBox[{"(", " ", 
+         RowBox[{
+          RowBox[{"emk", " ", "x21k", " ", "x21i"}], "+", 
+          RowBox[{"emk", " ", "x20k", " ", "x20i"}]}], ")"}], " ", "I5"}], 
+       " ", "+", " ", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"eik", " ", "x21k", " ", "x21m"}], " ", "+", 
+          RowBox[{"eik", " ", "x20k", " ", "x20m"}]}], ")"}], " ", "I6"}], 
+       "  ", "-", " ", 
+       RowBox[{"x21m", " ", "eik", " ", "x21k", " ", "G2"}], " ", "-", " ", 
+       RowBox[{"x21m", " ", "eik", " ", "x20k", " ", "G2"}]}], ")"}]}]}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"SimplifyTermRev", "[", "termJ3b", "]"}]}], "Input",
+ CellLabel->
+  "In[154]:=",ExpressionUUID->"07345f99-a8e0-4953-8db6-8ab610f90067"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox[
+     RowBox[{
+      FractionBox[
+       RowBox[{
+       "2", " ", "eij", " ", "eik", " ", "G2", " ", "x10j", " ", "x21k", " ", 
+        "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"8", " ", "eij", " ", "eik", " ", "G2", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x21j", " ", "x21k", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "6"]], "-", 
+      FractionBox[
+       RowBox[{
+       "2", " ", "eij", " ", "eik", " ", "I6", " ", "x10j", " ", "x21k", " ", 
+        "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"8", " ", "eij", " ", "eik", " ", "I6", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x21j", " ", "x21k", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "6"]], "-", 
+      FractionBox[
+       RowBox[{"2", " ", "eij", " ", "emi", " ", "I4", " ", "x10j"}], 
+       SubsuperscriptBox["x", "21", "2"]], "+", 
+      FractionBox[
+       RowBox[{"4", " ", "eij", " ", "emi", " ", "I4", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x21j"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{
+       "2", " ", "eij", " ", "emk", " ", "I5", " ", "x10j", " ", "x21i", " ", 
+        "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"8", " ", "eij", " ", "emk", " ", "I5", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x21i", " ", "x21j", " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "6"]]}],
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[
+   8 $CellContext`eij $CellContext`emk $CellContext`I5 $CellContext`x21i \
+$CellContext`x21j $CellContext`x21k Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) - 
+    8 $CellContext`eij $CellContext`eik $CellContext`G2 $CellContext`x21j \
+$CellContext`x21k $CellContext`x21m Dot[
+      Subscript[$CellContext`x, 21], 
+      Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) + 
+    8 $CellContext`eij $CellContext`eik $CellContext`I6 $CellContext`x21j \
+$CellContext`x21k $CellContext`x21m Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) - 
+    2 $CellContext`eij $CellContext`emk $CellContext`I5 $CellContext`x10j \
+$CellContext`x21i $CellContext`x21k Subscript[$CellContext`x, 21]^(-4) + 
+    2 $CellContext`eij $CellContext`eik $CellContext`G2 $CellContext`x10j \
+$CellContext`x21k $CellContext`x21m Subscript[$CellContext`x, 21]^(-4) - 
+    2 $CellContext`eij $CellContext`eik $CellContext`I6 $CellContext`x10j \
+$CellContext`x21k $CellContext`x21m Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`eij $CellContext`emi $CellContext`I4 $CellContext`x21j 
+     Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) - 
+    2 $CellContext`eij $CellContext`emi $CellContext`I4 $CellContext`x10j 
+    Subscript[$CellContext`x, 21]^(-2)]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[154]:=",ExpressionUUID->"2cb0433b-4aef-4e3e-8561-2ae1643a6a69"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"I4", ",", " ", "I5", ",", " ", 
+    RowBox[{"I6", " ", "eqns"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"termI4a", " ", "=", 
+     RowBox[{
+      FractionBox[
+       SuperscriptBox["x10", "2"], 
+       RowBox[{
+        SuperscriptBox["x21", "2"], 
+        SuperscriptBox["x20", "2"]}]], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"emi", " ", 
+         SuperscriptBox["x21", "2"], "I4"}], " ", "+", " ", 
+        RowBox[{"emk", " ", "x21k", " ", "x21i", " ", "I5"}], " ", "+", " ", 
+        RowBox[{"eik", " ", "x21k", " ", "x21m", " ", "I6"}], " ", "-", " ", 
+        RowBox[{"emi", " ", 
+         SuperscriptBox["x10", "2"], "I4"}], " ", "-", " ", 
+        RowBox[{"emk", " ", "x10k", " ", "x10i", " ", "I5"}], " ", "-", " ", 
+        RowBox[{"eik", " ", "x10k", " ", "x10m", " ", "I6"}]}], ")"}]}]}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"SimplifyTermRev", "[", "termI4a", "]"}]}]}]], "Input",
+ CellLabel->
+  "In[164]:=",ExpressionUUID->"56880304-601d-4f9b-9ee1-4233c9c86f7d"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox[
+     RowBox[{
+      FractionBox[
+       RowBox[{"eik", " ", "I6", " ", 
+        SubsuperscriptBox["x", "10", "2"], " ", "x21k", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"emi", " ", "I4", " ", 
+        SubsuperscriptBox["x", "10", "2"]}], 
+       SubsuperscriptBox["x", "21", "2"]], "+", 
+      FractionBox[
+       RowBox[{"emk", " ", "I5", " ", 
+        SubsuperscriptBox["x", "10", "2"], " ", "x21i", " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]]}],
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[$CellContext`emk $CellContext`I5 $CellContext`x21i \
+$CellContext`x21k Subscript[$CellContext`x, 10]^2 
+     Subscript[$CellContext`x, 
+        21]^(-4) + $CellContext`eik $CellContext`I6 $CellContext`x21k \
+$CellContext`x21m Subscript[$CellContext`x, 10]^2 
+     Subscript[$CellContext`x, 21]^(-4) + $CellContext`emi $CellContext`I4 
+     Subscript[$CellContext`x, 10]^2 Subscript[$CellContext`x, 21]^(-2)]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[164]:=",ExpressionUUID->"cd60fbf8-ee25-4412-ac81-5d223aa202ae"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",ExpressionUUID->"a4d68d36-8c5e-40cd-906e-6bfdd54f543c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"termI4b", " ", "=", " ", 
+    RowBox[{"2", 
+     RowBox[{"(", 
+      RowBox[{
+       FractionBox[
+        RowBox[{"eij", " ", "x21j"}], 
+        SuperscriptBox["x21", "2"]], "-", " ", 
+       FractionBox[
+        RowBox[{"eij", " ", "x20j"}], 
+        SuperscriptBox["x20", "2"]], "+", " ", 
+       RowBox[{"2", " ", 
+        FractionBox[
+         RowBox[{"x21i", " ", 
+          RowBox[{"Cross", "[", 
+           RowBox[{"x21", ",", " ", "x10"}], "]"}]}], 
+         RowBox[{
+          SuperscriptBox["x20", "2"], 
+          SuperscriptBox["x21", "2"]}]]}]}], ")"}], 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"x21m", " ", "J3"}], " ", "-", " ", 
+       RowBox[{"x21m", " ", "G"}], " ", "+", " ", 
+       RowBox[{"x20m", " ", "J3"}], " ", "-", " ", 
+       RowBox[{"x21m", " ", "G"}]}], ")"}]}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"SimplifyTermRev", "[", "termI4b", "]"}]}], "Input",
+ CellLabel->
+  "In[166]:=",ExpressionUUID->"23124600-581d-4f49-9a0f-93565cda22db"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox[
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"8", " ", "eij", " ", "G", " ", 
+         RowBox[{
+          SubscriptBox["x", "21"], ".", 
+          SubscriptBox["x", "10"]}], " ", "x10j", " ", "x21m"}], 
+        SubsuperscriptBox["x", "21", "4"]]}], "-", 
+      FractionBox[
+       RowBox[{"4", " ", "eij", " ", "G", " ", 
+        SubsuperscriptBox["x", "10", "2"], " ", "x21j", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"2", " ", "eij", " ", "J3", " ", "x10j", " ", "x10m"}], 
+       SubsuperscriptBox["x", "21", "2"]], "+", 
+      FractionBox[
+       RowBox[{"8", " ", "eij", " ", "J3", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10j", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"4", " ", "eij", " ", "J3", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10m", " ", "x21j"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"4", " ", "eij", " ", "J3", " ", 
+        SubsuperscriptBox["x", "10", "2"], " ", "x21j", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"16", " ", "G", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x21i", " ", "x21m", " ", 
+        RowBox[{
+         SubscriptBox["x", "10"], "\[Cross]", 
+         SubscriptBox["x", "21"]}]}], 
+       SubsuperscriptBox["x", "21", "6"]], "-", 
+      FractionBox[
+       RowBox[{"4", " ", "J3", " ", "x10m", " ", "x21i", " ", 
+        RowBox[{
+         SubscriptBox["x", "10"], "\[Cross]", 
+         SubscriptBox["x", "21"]}]}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"16", " ", "J3", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x21i", " ", "x21m", " ", 
+        RowBox[{
+         SubscriptBox["x", "10"], "\[Cross]", 
+         SubscriptBox["x", "21"]}]}], 
+       SubsuperscriptBox["x", "21", "6"]]}],
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[(-16) $CellContext`G $CellContext`x21i $CellContext`x21m 
+     Cross[
+       Subscript[$CellContext`x, 10], 
+       Subscript[$CellContext`x, 21]] Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) + 
+    16 $CellContext`J3 $CellContext`x21i $CellContext`x21m Cross[
+       Subscript[$CellContext`x, 10], 
+       Subscript[$CellContext`x, 21]] Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) - 
+    4 $CellContext`J3 $CellContext`x10m $CellContext`x21i Cross[
+      Subscript[$CellContext`x, 10], 
+      Subscript[$CellContext`x, 21]] Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`eij $CellContext`J3 $CellContext`x10m $CellContext`x21j Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) - 
+    8 $CellContext`eij $CellContext`G $CellContext`x10j $CellContext`x21m 
+    Dot[
+      Subscript[$CellContext`x, 21], 
+      Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) + 
+    8 $CellContext`eij $CellContext`J3 $CellContext`x10j $CellContext`x21m Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) - 
+    4 $CellContext`eij $CellContext`G $CellContext`x21j $CellContext`x21m 
+    Subscript[$CellContext`x, 10]^2 Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`eij $CellContext`J3 $CellContext`x21j $CellContext`x21m 
+     Subscript[$CellContext`x, 10]^2 Subscript[$CellContext`x, 21]^(-4) - 
+    2 $CellContext`eij $CellContext`J3 $CellContext`x10j $CellContext`x10m 
+    Subscript[$CellContext`x, 21]^(-2)]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[166]:=",ExpressionUUID->"cbab41c2-dfee-4fd5-903a-8840990e72bd"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"termI4c", " ", "=", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"oij", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox["3", 
+           SuperscriptBox["x21", "2"]], "-", " ", 
+          FractionBox[
+           RowBox[{"2", " ", 
+            RowBox[{"x20", ".", "x21"}]}], 
+           RowBox[{
+            SuperscriptBox["x20", "2"], 
+            SuperscriptBox["x21", "2"]}]], "-", " ", 
+          FractionBox["1", 
+           SuperscriptBox["x20", "2"]]}], ")"}]}], " ", "-", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", "x21i", " ", "x20j"}], 
+         RowBox[{
+          SuperscriptBox["x21", "2"], 
+          SuperscriptBox["x20", "2"]}]], 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox[
+           RowBox[{"2", " ", 
+            RowBox[{"x20", ".", "x21"}]}], 
+           SuperscriptBox["x20", "2"]], "+", "1"}], ")"}]}], " ", "+", " ", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"2", " ", "x21i", " ", "x21j"}], 
+         RowBox[{
+          SuperscriptBox["x21", "2"], 
+          SuperscriptBox["x20", "2"]}]], 
+        RowBox[{"(", 
+         RowBox[{
+          FractionBox[
+           RowBox[{"2", " ", 
+            RowBox[{"x20", ".", "x21"}]}], 
+           SuperscriptBox["x21", "2"]], "+", "1"}], ")"}]}], " ", "+", " ", 
+       FractionBox[
+        RowBox[{"2", " ", "x20i", " ", "x20j"}], 
+        SuperscriptBox["x20", "4"]], "-", " ", 
+       FractionBox[
+        RowBox[{"2", " ", "x21i", " ", "x21j"}], 
+        SuperscriptBox["x21", "4"]]}], ")"}], 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"emj", " ", 
+        SuperscriptBox["x21", "2"], "I4"}], " ", "+", " ", 
+       RowBox[{"emk", " ", "x21k", " ", "x21j", " ", "I5"}], " ", "+", " ", 
+       RowBox[{"ejk", " ", "x21k", " ", "x21m", " ", "I6"}], " ", "-", " ", 
+       RowBox[{"ejk", " ", "x21k", " ", "x21m", " ", "G2"}], " ", "+", " ", 
+       RowBox[{"emj", " ", 
+        SuperscriptBox["x20", "2"], "I4"}], " ", "+", " ", 
+       RowBox[{"emk", " ", "x20k", " ", "x20j", " ", "I5"}], " ", "+", " ", 
+       RowBox[{"ejk", " ", "x20k", " ", "x20m", " ", "I6"}], " ", "-", " ", 
+       RowBox[{"ejk", " ", "x20k", " ", "x20m", " ", "G2"}]}], ")"}]}]}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"SimplifyTermRev", "[", "termI4c", "]"}]}], "Input",
+ CellLabel->
+  "In[170]:=",ExpressionUUID->"d4e8e60c-0df7-4b68-8e8d-ac9c616b7f65"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   StyleBox["\<\"IR divergent terms:  \"\>",
+    StripOnInput->False,
+    LineColor->GrayLevel[0],
+    FrontFaceColor->GrayLevel[0],
+    BackFaceColor->GrayLevel[0],
+    GraphicsColor->GrayLevel[0],
+    FontFamily->"Times",
+    FontSize->15,
+    FontColor->GrayLevel[0]], "\[InvisibleSpace]", 
+   TagBox[
+    FormBox[
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"4", " ", "ejk", " ", "G2", " ", "oij", " ", 
+         RowBox[{
+          SubscriptBox["x", "21"], ".", 
+          SubscriptBox["x", "10"]}], " ", "x10k", " ", "x21m"}], 
+        SubsuperscriptBox["x", "21", "4"]]}], "-", 
+      FractionBox[
+       RowBox[{"4", " ", "ejk", " ", "G2", " ", "oij", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10m", " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"6", " ", "ejk", " ", "G2", " ", "oij", " ", 
+        SubsuperscriptBox["x", "10", "2"], " ", "x21k", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"8", " ", "ejk", " ", "G2", " ", "oij", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           SubscriptBox["x", "21"], ".", 
+           SubscriptBox["x", "10"]}], ")"}], "2"], " ", "x21k", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "6"]], "-", 
+      FractionBox[
+       RowBox[{
+       "4", " ", "ejk", " ", "G2", " ", "x10i", " ", "x10j", " ", "x21k", " ",
+         "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{
+       "2", " ", "ejk", " ", "G2", " ", "x10i", " ", "x10k", " ", "x21j", " ",
+         "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{
+       "2", " ", "ejk", " ", "G2", " ", "x10i", " ", "x10m", " ", "x21j", " ",
+         "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"16", " ", "ejk", " ", "G2", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10i", " ", "x21j", " ", "x21k", 
+        " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "6"]], "+", 
+      FractionBox[
+       RowBox[{
+       "4", " ", "ejk", " ", "G2", " ", "x10j", " ", "x10k", " ", "x21i", " ",
+         "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{
+       "4", " ", "ejk", " ", "G2", " ", "x10j", " ", "x10m", " ", "x21i", " ",
+         "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"16", " ", "ejk", " ", "G2", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10j", " ", "x21i", " ", "x21k", 
+        " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "6"]], "+", 
+      FractionBox[
+       RowBox[{"4", " ", "ejk", " ", "I6", " ", "oij", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10k", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"4", " ", "ejk", " ", "I6", " ", "oij", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10m", " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"6", " ", "ejk", " ", "I6", " ", "oij", " ", 
+        SubsuperscriptBox["x", "10", "2"], " ", "x21k", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"8", " ", "ejk", " ", "I6", " ", "oij", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           SubscriptBox["x", "21"], ".", 
+           SubscriptBox["x", "10"]}], ")"}], "2"], " ", "x21k", " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "6"]], "+", 
+      FractionBox[
+       RowBox[{
+       "4", " ", "ejk", " ", "I6", " ", "x10i", " ", "x10j", " ", "x21k", " ",
+         "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{
+       "2", " ", "ejk", " ", "I6", " ", "x10i", " ", "x10k", " ", "x21j", " ",
+         "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{
+       "2", " ", "ejk", " ", "I6", " ", "x10i", " ", "x10m", " ", "x21j", " ",
+         "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"16", " ", "ejk", " ", "I6", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10i", " ", "x21j", " ", "x21k", 
+        " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "6"]], "-", 
+      FractionBox[
+       RowBox[{
+       "4", " ", "ejk", " ", "I6", " ", "x10j", " ", "x10k", " ", "x21i", " ",
+         "x21m"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{
+       "4", " ", "ejk", " ", "I6", " ", "x10j", " ", "x10m", " ", "x21i", " ",
+         "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"16", " ", "ejk", " ", "I6", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10j", " ", "x21i", " ", "x21k", 
+        " ", "x21m"}], 
+       SubsuperscriptBox["x", "21", "6"]], "+", 
+      FractionBox[
+       RowBox[{"3", " ", "emj", " ", "I4", " ", "oij", " ", 
+        SubsuperscriptBox["x", "10", "2"]}], 
+       SubsuperscriptBox["x", "21", "2"]], "+", 
+      FractionBox[
+       RowBox[{"4", " ", "emj", " ", "I4", " ", "oij", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           SubscriptBox["x", "21"], ".", 
+           SubscriptBox["x", "10"]}], ")"}], "2"]}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"4", " ", "emj", " ", "I4", " ", "x10i", " ", "x10j"}], 
+       SubsuperscriptBox["x", "21", "2"]], "-", 
+      FractionBox[
+       RowBox[{"12", " ", "emj", " ", "I4", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10i", " ", "x21j"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"8", " ", "emj", " ", "I4", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10j", " ", "x21i"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"2", " ", "emj", " ", "I4", " ", 
+        SubsuperscriptBox["x", "10", "2"], " ", "x21i", " ", "x21j"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"8", " ", "emj", " ", "I4", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           SubscriptBox["x", "21"], ".", 
+           SubscriptBox["x", "10"]}], ")"}], "2"], " ", "x21i", " ", "x21j"}], 
+       SubsuperscriptBox["x", "21", "6"]], "+", 
+      FractionBox[
+       RowBox[{"4", " ", "emk", " ", "I5", " ", "oij", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10j", " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"4", " ", "emk", " ", "I5", " ", "oij", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10k", " ", "x21j"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"6", " ", "emk", " ", "I5", " ", "oij", " ", 
+        SubsuperscriptBox["x", "10", "2"], " ", "x21j", " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"8", " ", "emk", " ", "I5", " ", "oij", " ", 
+        SuperscriptBox[
+         RowBox[{"(", 
+          RowBox[{
+           SubscriptBox["x", "21"], ".", 
+           SubscriptBox["x", "10"]}], ")"}], "2"], " ", "x21j", " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "6"]], "+", 
+      FractionBox[
+       RowBox[{
+       "6", " ", "emk", " ", "I5", " ", "x10i", " ", "x10j", " ", "x21j", " ",
+         "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"2", " ", "emk", " ", "I5", " ", "x10i", " ", "x10k", " ", 
+        SuperscriptBox["x21j", "2"]}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{"16", " ", "emk", " ", "I5", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10i", " ", 
+        SuperscriptBox["x21j", "2"], " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "6"]], "-", 
+      FractionBox[
+       RowBox[{"4", " ", "emk", " ", "I5", " ", 
+        SuperscriptBox["x10j", "2"], " ", "x21i", " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "4"]], "-", 
+      FractionBox[
+       RowBox[{
+       "4", " ", "emk", " ", "I5", " ", "x10j", " ", "x10k", " ", "x21i", " ",
+         "x21j"}], 
+       SubsuperscriptBox["x", "21", "4"]], "+", 
+      FractionBox[
+       RowBox[{"16", " ", "emk", " ", "I5", " ", 
+        RowBox[{
+         SubscriptBox["x", "21"], ".", 
+         SubscriptBox["x", "10"]}], " ", "x10j", " ", "x21i", " ", "x21j", 
+        " ", "x21k"}], 
+       SubsuperscriptBox["x", "21", "6"]]}],
+     TraditionalForm],
+    TraditionalForm,
+    Editable->True]}],
+  SequenceForm[
+   Style["IR divergent terms:  ", 15, 
+    GrayLevel[0], FontFamily -> "Times"], 
+   TraditionalForm[
+   16 $CellContext`emk $CellContext`I5 $CellContext`x10j $CellContext`x21i \
+$CellContext`x21j $CellContext`x21k Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) - 
+    16 $CellContext`emk $CellContext`I5 $CellContext`x10i $CellContext`x21j^2 \
+$CellContext`x21k Dot[
+      Subscript[$CellContext`x, 21], 
+      Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) - 
+    16 $CellContext`ejk $CellContext`G2 $CellContext`x10j $CellContext`x21i \
+$CellContext`x21k $CellContext`x21m Dot[
+      Subscript[$CellContext`x, 21], 
+      Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) + 
+    16 $CellContext`ejk $CellContext`I6 $CellContext`x10j $CellContext`x21i \
+$CellContext`x21k $CellContext`x21m Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) + 
+    16 $CellContext`ejk $CellContext`G2 $CellContext`x10i $CellContext`x21j \
+$CellContext`x21k $CellContext`x21m Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) - 
+    16 $CellContext`ejk $CellContext`I6 $CellContext`x10i $CellContext`x21j \
+$CellContext`x21k $CellContext`x21m Dot[
+      Subscript[$CellContext`x, 21], 
+      Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-6) + 
+    8 $CellContext`emj $CellContext`I4 $CellContext`x21i $CellContext`x21j Dot[
+        Subscript[$CellContext`x, 21], 
+        Subscript[$CellContext`x, 10]]^2 Subscript[$CellContext`x, 21]^(-6) + 
+    8 $CellContext`emk $CellContext`I5 $CellContext`oij $CellContext`x21j \
+$CellContext`x21k Dot[
+        Subscript[$CellContext`x, 21], 
+        Subscript[$CellContext`x, 10]]^2 Subscript[$CellContext`x, 21]^(-6) - 
+    8 $CellContext`ejk $CellContext`G2 $CellContext`oij $CellContext`x21k \
+$CellContext`x21m Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]]^2 Subscript[$CellContext`x, 21]^(-6) + 
+    8 $CellContext`ejk $CellContext`I6 $CellContext`oij $CellContext`x21k \
+$CellContext`x21m Dot[
+        Subscript[$CellContext`x, 21], 
+        Subscript[$CellContext`x, 10]]^2 Subscript[$CellContext`x, 21]^(-6) - 
+    4 $CellContext`emk $CellContext`I5 $CellContext`x10j $CellContext`x10k \
+$CellContext`x21i $CellContext`x21j Subscript[$CellContext`x, 21]^(-4) + 
+    2 $CellContext`emk $CellContext`I5 $CellContext`x10i $CellContext`x10k \
+$CellContext`x21j^2 Subscript[$CellContext`x, 21]^(-4) - 
+    4 $CellContext`emk $CellContext`I5 $CellContext`x10j^2 $CellContext`x21i \
+$CellContext`x21k Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`ejk $CellContext`G2 $CellContext`x10j $CellContext`x10m \
+$CellContext`x21i $CellContext`x21k Subscript[$CellContext`x, 21]^(-4) - 
+    4 $CellContext`ejk $CellContext`I6 $CellContext`x10j $CellContext`x10m \
+$CellContext`x21i $CellContext`x21k Subscript[$CellContext`x, 21]^(-4) + 
+    6 $CellContext`emk $CellContext`I5 $CellContext`x10i $CellContext`x10j \
+$CellContext`x21j $CellContext`x21k Subscript[$CellContext`x, 21]^(-4) - 
+    2 $CellContext`ejk $CellContext`G2 $CellContext`x10i $CellContext`x10m \
+$CellContext`x21j $CellContext`x21k Subscript[$CellContext`x, 21]^(-4) + 
+    2 $CellContext`ejk $CellContext`I6 $CellContext`x10i $CellContext`x10m \
+$CellContext`x21j $CellContext`x21k Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`ejk $CellContext`G2 $CellContext`x10j $CellContext`x10k \
+$CellContext`x21i $CellContext`x21m Subscript[$CellContext`x, 21]^(-4) - 
+    4 $CellContext`ejk $CellContext`I6 $CellContext`x10j $CellContext`x10k \
+$CellContext`x21i $CellContext`x21m Subscript[$CellContext`x, 21]^(-4) - 
+    2 $CellContext`ejk $CellContext`G2 $CellContext`x10i $CellContext`x10k \
+$CellContext`x21j $CellContext`x21m Subscript[$CellContext`x, 21]^(-4) + 
+    2 $CellContext`ejk $CellContext`I6 $CellContext`x10i $CellContext`x10k \
+$CellContext`x21j $CellContext`x21m Subscript[$CellContext`x, 21]^(-4) - 
+    4 $CellContext`ejk $CellContext`G2 $CellContext`x10i $CellContext`x10j \
+$CellContext`x21k $CellContext`x21m Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`ejk $CellContext`I6 $CellContext`x10i $CellContext`x10j \
+$CellContext`x21k $CellContext`x21m Subscript[$CellContext`x, 21]^(-4) + 
+    8 $CellContext`emj $CellContext`I4 $CellContext`x10j $CellContext`x21i Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) - 
+    12 $CellContext`emj $CellContext`I4 $CellContext`x10i $CellContext`x21j 
+    Dot[
+      Subscript[$CellContext`x, 21], 
+      Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`emk $CellContext`I5 $CellContext`oij $CellContext`x10k \
+$CellContext`x21j Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`emk $CellContext`I5 $CellContext`oij $CellContext`x10j \
+$CellContext`x21k Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) - 
+    4 $CellContext`ejk $CellContext`G2 $CellContext`oij $CellContext`x10m \
+$CellContext`x21k Dot[
+      Subscript[$CellContext`x, 21], 
+      Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`ejk $CellContext`I6 $CellContext`oij $CellContext`x10m \
+$CellContext`x21k Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) - 
+    4 $CellContext`ejk $CellContext`G2 $CellContext`oij $CellContext`x10k \
+$CellContext`x21m Dot[
+      Subscript[$CellContext`x, 21], 
+      Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`ejk $CellContext`I6 $CellContext`oij $CellContext`x10k \
+$CellContext`x21m Dot[
+       Subscript[$CellContext`x, 21], 
+       Subscript[$CellContext`x, 10]] Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`emj $CellContext`I4 $CellContext`oij Dot[
+        Subscript[$CellContext`x, 21], 
+        Subscript[$CellContext`x, 10]]^2 Subscript[$CellContext`x, 21]^(-4) + 
+    2 $CellContext`emj $CellContext`I4 $CellContext`x21i $CellContext`x21j 
+     Subscript[$CellContext`x, 10]^2 Subscript[$CellContext`x, 21]^(-4) + 
+    6 $CellContext`emk $CellContext`I5 $CellContext`oij $CellContext`x21j \
+$CellContext`x21k Subscript[$CellContext`x, 10]^2 
+     Subscript[$CellContext`x, 21]^(-4) - 
+    6 $CellContext`ejk $CellContext`G2 $CellContext`oij $CellContext`x21k \
+$CellContext`x21m Subscript[$CellContext`x, 10]^2 
+    Subscript[$CellContext`x, 21]^(-4) + 
+    6 $CellContext`ejk $CellContext`I6 $CellContext`oij $CellContext`x21k \
+$CellContext`x21m Subscript[$CellContext`x, 10]^2 
+     Subscript[$CellContext`x, 21]^(-4) + 
+    4 $CellContext`emj $CellContext`I4 $CellContext`x10i $CellContext`x10j 
+     Subscript[$CellContext`x, 21]^(-2) + 
+    3 $CellContext`emj $CellContext`I4 $CellContext`oij 
+     Subscript[$CellContext`x, 10]^2 Subscript[$CellContext`x, 21]^(-2)]],
+  Editable->False]], "Print",
+ CellLabel->
+  "During evaluation of \
+In[170]:=",ExpressionUUID->"730ee7a5-c250-4e81-b569-71946d88277d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", 
+   RowBox[{"2", "\[Pi]"}]], 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Cos", "[", "x", "]"}], 
+     RowBox[{"Sin", "[", "x", "]"}], " ", 
+     RowBox[{"Cos", "[", "x", "]"}], " ", 
+     RowBox[{"Sin", "[", "x", "]"}]}], ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "0", ",", 
+      RowBox[{"2", "\[Pi]"}]}], "}"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[175]:=",ExpressionUUID->"ff3d161e-a21a-4b8a-b9f5-5434f57360f2"],
+
+Cell[BoxData[
+ FractionBox["1", "8"]], "Output",
+ CellLabel->
+  "Out[175]=",ExpressionUUID->"fc0dfb34-9b54-45c4-888f-fed826168dad"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", 
+   RowBox[{"2", "\[Pi]"}]], 
+  RowBox[{"Integrate", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Cos", "[", "x", "]"}], " ", 
+     RowBox[{"Cos", "[", "x", "]"}]}], ",", " ", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "0", ",", 
+      RowBox[{"2", "\[Pi]"}]}], "}"}]}], "]"}]}]], "Input",
+ CellLabel->
+  "In[176]:=",ExpressionUUID->"e1f514ca-a412-4e67-a689-549b07cf987c"],
+
+Cell[BoxData[
+ FractionBox["1", "2"]], "Output",
+ CellLabel->
+  "Out[176]=",ExpressionUUID->"9543f905-6381-4bdc-b269-8fa22412e421"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"2", "+", "2", "+", "3", "+", "2", "-", "8", "-", "2", "+", 
+  "4"}]], "Input",
+ CellLabel->
+  "In[177]:=",ExpressionUUID->"d2170014-2bd7-45e4-86c5-eff4468fcd5c"],
+
+Cell[BoxData["3"], "Output",
+ CellLabel->
+  "Out[177]=",ExpressionUUID->"e710e057-e3e8-4fce-9681-6b45642c2b71"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"3", "+", "2", "+", "2"}]], "Input",
+ CellLabel->
+  "In[178]:=",ExpressionUUID->"acba00ed-6a81-416c-882c-5f154b73416b"],
+
+Cell[BoxData["7"], "Output",
+ CellLabel->
+  "Out[178]=",ExpressionUUID->"403fb132-4785-45ac-bd4c-faf3bcad617d"]
+}, Open  ]]
+},
+WindowSize->{763, 822},
+WindowMargins->{{26, Automatic}, {Automatic, 0}},
+FrontEndVersion->"12.3 for Mac OS X x86 (64-bit) (May 11, 2021)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"afeb0336-5951-4e8d-af04-14bcad50fc5f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 19084, 445, 2300, "Input",ExpressionUUID->"e064fcb9-2b57-4538-a1e1-6998acbc4153"],
+Cell[19645, 467, 81, 0, 30, "Input",ExpressionUUID->"e71f1d6f-abf7-4908-b5f4-fd25c2e7c7f3"],
+Cell[CellGroupData[{
+Cell[19751, 471, 2539, 73, 289, "Input",ExpressionUUID->"b79fd14e-425a-4368-85bb-2fdf095d7a1d"],
+Cell[CellGroupData[{
+Cell[22315, 548, 691, 24, 26, "Print",ExpressionUUID->"0ff17dcb-f0f4-4b03-abcc-94580dbacc73"],
+Cell[23009, 574, 691, 24, 26, "Print",ExpressionUUID->"7d389eca-acb8-458a-895d-3a7027eb3e9d"],
+Cell[23703, 600, 691, 24, 26, "Print",ExpressionUUID->"f87a21f9-4073-4807-a008-4bbbfe2c0145"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[24443, 630, 3597, 105, 334, "Input",ExpressionUUID->"6092440e-d679-403c-9b7b-aff40b2a8a95"],
+Cell[CellGroupData[{
+Cell[28065, 739, 691, 24, 26, "Print",ExpressionUUID->"61344879-d228-4a54-a6d1-fd9de3b621fb"],
+Cell[28759, 765, 1723, 48, 46, "Print",ExpressionUUID->"09b2c193-7d12-448b-92a1-c05770265cd6"],
+Cell[30485, 815, 1831, 48, 46, "Print",ExpressionUUID->"cca52b67-d823-4933-a421-76a1b46fb3ef"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[32365, 869, 923, 27, 115, "Input",ExpressionUUID->"29328b8f-ddac-4ae2-93fb-c642b96b43cf"],
+Cell[33291, 898, 1437, 42, 46, "Print",ExpressionUUID->"747ee9c6-6e90-4f76-a619-7b721b2f783f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[34765, 945, 543, 17, 76, "Input",ExpressionUUID->"a4de0d8c-d66f-47c6-a12d-ee550adbed9a"],
+Cell[35311, 964, 691, 24, 26, "Print",ExpressionUUID->"bb6cbff8-e63c-4525-892d-870b1ef148f4"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[36039, 993, 1954, 55, 141, "Input",ExpressionUUID->"07345f99-a8e0-4953-8db6-8ab610f90067"],
+Cell[37996, 1050, 3868, 91, 132, "Print",ExpressionUUID->"2cb0433b-4aef-4e3e-8561-2ae1643a6a69"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[41901, 1146, 1114, 27, 163, "Input",ExpressionUUID->"56880304-601d-4f9b-9ee1-4233c9c86f7d"],
+Cell[43018, 1175, 1613, 43, 48, "Print",ExpressionUUID->"cd60fbf8-ee25-4412-ac81-5d223aa202ae"]
+}, Open  ]],
+Cell[44646, 1221, 81, 0, 30, "Input",ExpressionUUID->"a4d68d36-8c5e-40cd-906e-6bfdd54f543c"],
+Cell[CellGroupData[{
+Cell[44752, 1225, 1056, 30, 116, "Input",ExpressionUUID->"23124600-581d-4f49-9a0f-93565cda22db"],
+Cell[45811, 1257, 4567, 108, 139, "Print",ExpressionUUID->"cbab41c2-dfee-4fd5-903a-8840990e72bd"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[50415, 1370, 2485, 65, 206, "Input",ExpressionUUID->"d4e8e60c-0df7-4b68-8e8d-ac9c616b7f65"],
+Cell[52903, 1437, 16659, 363, 630, "Print",ExpressionUUID->"730ee7a5-c250-4e81-b569-71946d88277d"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[69599, 1805, 495, 15, 48, "Input",ExpressionUUID->"ff3d161e-a21a-4b8a-b9f5-5434f57360f2"],
+Cell[70097, 1822, 131, 3, 51, "Output",ExpressionUUID->"fc0dfb34-9b54-45c4-888f-fed826168dad"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[70265, 1830, 414, 13, 48, "Input",ExpressionUUID->"e1f514ca-a412-4e67-a689-549b07cf987c"],
+Cell[70682, 1845, 131, 3, 50, "Output",ExpressionUUID->"9543f905-6381-4bdc-b269-8fa22412e421"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[70850, 1853, 185, 4, 30, "Input",ExpressionUUID->"d2170014-2bd7-45e4-86c5-eff4468fcd5c"],
+Cell[71038, 1859, 111, 2, 34, "Output",ExpressionUUID->"e710e057-e3e8-4fce-9681-6b45642c2b71"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[71186, 1866, 142, 3, 30, "Input",ExpressionUUID->"acba00ed-6a81-416c-882c-5f154b73416b"],
+Cell[71331, 1871, 111, 2, 57, "Output",ExpressionUUID->"403fb132-4785-45ac-bd4c-faf3bcad617d"]
+}, Open  ]]
+}
+]
+*)
+
